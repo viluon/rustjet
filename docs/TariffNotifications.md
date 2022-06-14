@@ -1,0 +1,13 @@
+# TariffNotifications
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**title** | **String** | Notification header translation | 
+**description** | **String** | Notification description translation | 
+**content** | **Vec<String>** |  | 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
