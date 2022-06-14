@@ -152,14 +152,14 @@ pub async fn authenticate(configuration: &configuration::Configuration, x_lang: 
         };
         local_var_req_builder = local_var_req_builder.header("Authorization", local_var_value);
     };
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
-        };
-        local_var_req_builder = local_var_req_builder.header("X-Token-Hash", local_var_value);
-    };
+    // if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+    //     let local_var_key = local_var_apikey.key.clone();
+    //     let local_var_value = match local_var_apikey.prefix {
+    //         Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+    //         None => local_var_key,
+    //     };
+    //     local_var_req_builder = local_var_req_builder.header("X-Token-Hash", local_var_value);
+    // };
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
