@@ -21,6 +21,9 @@ jobs:
           target/
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - uses: rui314/setup-mold@v1
+    - name: install clang
+      run: |
+        sudo apt install clang-12
     - name: build
       run: |
         cargo build --release
