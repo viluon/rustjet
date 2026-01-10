@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**payment_methods** | Option<[**Vec<crate::models::LayoutFooterPaymentMethods>**](Layout_footer_paymentMethods.md)> |  | [optional]
-**form_url** | Option<[**crate::models::LayoutFooterFormUrl**](Layout_footer_formURL.md)> |  | [optional]
+**payment_methods** | Option<[**Vec<models::LayoutFooterPaymentMethods>**](Layout_footer_paymentMethods.md)> |  | [optional]
+**form_url** | Option<[**models::LayoutFooterFormUrl**](Layout_footer_formURL.md)> |  | [optional]
 **phone** | Option<**String**> |  | [optional]
 **email** | Option<**String**> |  | [optional]
 

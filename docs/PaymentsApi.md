@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 ## get_payment_form
 
-> Vec<crate::models::PaymentFormField> get_payment_form(payment_form_request, x_lang)
+> Vec<models::PaymentFormField> get_payment_form(payment_form_request, x_lang)
 
 
 Get the form desription for a payment
@@ -36,11 +36,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::PaymentFormField>**](PaymentFormField.md)
+[**Vec<models::PaymentFormField>**](PaymentFormField.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -52,7 +52,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_payments
 
-> Vec<crate::models::Payment> get_payments(x_lang, limit, offset, date_from, date_to, _type, sort_direction)
+> Vec<models::Payment> get_payments(x_lang, limit, offset, date_from, date_to, r#type, sort_direction)
 
 
 Get history of transactions
@@ -67,16 +67,16 @@ Name | Type | Description  | Required | Notes
 **offset** | Option<**i32**> | Page number (value must be dividable by limit) |  |[default to 0]
 **date_from** | Option<**String**> | Filtres payments with realization date higher than |  |
 **date_to** | Option<**String**> | Filtres payments with realization date lower than |  |
-**_type** | Option<[**Vec<String>**](String.md)> | Filtres payments type(s) |  |
+**r#type** | Option<[**Vec<String>**](String.md)> | Filtres payments type(s) |  |
 **sort_direction** | Option<**String**> | Sorting direction |  |[default to DESC]
 
 ### Return type
 
-[**Vec<crate::models::Payment>**](Payment.md)
+[**Vec<models::Payment>**](Payment.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -88,7 +88,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_payments_methods
 
-> Vec<crate::models::PaymentMethod> get_payments_methods(x_lang, payments_methods_request)
+> Vec<models::PaymentMethod> get_payments_methods(x_lang, payments_methods_request)
 
 
 Get list of payment methods
@@ -103,11 +103,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::PaymentMethod>**](PaymentMethod.md)
+[**Vec<models::PaymentMethod>**](PaymentMethod.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -119,7 +119,7 @@ Name | Type | Description  | Required | Notes
 
 ## pay_ticket_by_affiliate
 
-> crate::models::SuccessResponse pay_ticket_by_affiliate(ticket_id, x_lang)
+> models::SuccessResponse pay_ticket_by_affiliate(ticket_id, x_lang)
 
 
 Mark a ticket as paid directly
@@ -134,7 +134,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
@@ -150,7 +150,7 @@ Name | Type | Description  | Required | Notes
 
 ## payments_credit_add
 
-> crate::models::CreditAddResponse payments_credit_add(credit_add_request, x_lang)
+> models::CreditAddResponse payments_credit_add(credit_add_request, x_lang)
 
 
 Add credit through a payment method
@@ -165,11 +165,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::CreditAddResponse**](CreditAddResponse.md)
+[**models::CreditAddResponse**](CreditAddResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -181,7 +181,7 @@ Name | Type | Description  | Required | Notes
 
 ## payments_credit_charge
 
-> crate::models::ChargeResponse payments_credit_charge(charge_request, x_lang)
+> models::ChargeResponse payments_credit_charge(charge_request, x_lang)
 
 
 Make a payment witch charge credit
@@ -196,11 +196,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::ChargeResponse**](ChargeResponse.md)
+[**models::ChargeResponse**](ChargeResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -212,7 +212,7 @@ Name | Type | Description  | Required | Notes
 
 ## payments_credit_gift_certificate_add
 
-> crate::models::SuccessResponse payments_credit_gift_certificate_add(add_gift_certificate_request, x_lang)
+> models::SuccessResponse payments_credit_gift_certificate_add(add_gift_certificate_request, x_lang)
 
 
 Add credit through a gift certificate
@@ -227,11 +227,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -243,7 +243,7 @@ Name | Type | Description  | Required | Notes
 
 ## payments_pay
 
-> crate::models::CreditAddResponse payments_pay(pay_request, x_lang)
+> models::CreditAddResponse payments_pay(pay_request, x_lang)
 
 
 Make a payment through a payment method
@@ -258,11 +258,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::CreditAddResponse**](CreditAddResponse.md)
+[**models::CreditAddResponse**](CreditAddResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -293,7 +293,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -324,7 +324,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -355,7 +355,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -367,7 +367,7 @@ Name | Type | Description  | Required | Notes
 
 ## verify_gift_certificate
 
-> crate::models::GiftCertificateInfo verify_gift_certificate(verify_gift_certificate_request, x_lang)
+> models::GiftCertificateInfo verify_gift_certificate(verify_gift_certificate_request, x_lang)
 
 
 Verify validity of a gift certificate
@@ -382,11 +382,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::GiftCertificateInfo**](GiftCertificateInfo.md)
+[**models::GiftCertificateInfo**](GiftCertificateInfo.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 

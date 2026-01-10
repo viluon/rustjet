@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## content_layout
 
-> crate::models::Layout content_layout(x_lang)
+> models::Layout content_layout(x_lang)
 
 
 Get the layout
@@ -25,7 +25,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Layout**](Layout.md)
+[**models::Layout**](Layout.md)
 
 ### Authorization
 
@@ -41,7 +41,7 @@ No authorization required
 
 ## content_news
 
-> crate::models::News content_news(x_lang)
+> models::News content_news(x_lang)
 
 
 Get the news
@@ -55,7 +55,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::News**](News.md)
+[**models::News**](News.md)
 
 ### Authorization
 

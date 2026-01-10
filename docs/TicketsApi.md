@@ -27,7 +27,7 @@ Method | HTTP request | Description
 
 ## cancel_ticket
 
-> crate::models::SuccessResponse cancel_ticket(ticket_id, request, x_lang)
+> models::SuccessResponse cancel_ticket(ticket_id, request, x_lang)
 Delete ticket by ID
 
 ### Parameters
@@ -41,11 +41,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -57,7 +57,7 @@ Name | Type | Description  | Required | Notes
 
 ## cancel_ticket_by_affiliate
 
-> crate::models::SuccessResponse cancel_ticket_by_affiliate(account_code, ticket_id, request, x_lang)
+> models::SuccessResponse cancel_ticket_by_affiliate(account_code, ticket_id, request, x_lang)
 Delete ticket by ID for affiliate partners
 
 ### Parameters
@@ -72,7 +72,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
@@ -88,7 +88,7 @@ Name | Type | Description  | Required | Notes
 
 ## create_registered_tickets
 
-> crate::models::CreateTicketResponseRegistered create_registered_tickets(tickets_request, x_lang, x_currency)
+> models::CreateTicketResponseRegistered create_registered_tickets(tickets_request, x_lang, x_currency)
 Create new ticket(s) for an account
 
 ### Parameters
@@ -102,11 +102,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::CreateTicketResponseRegistered**](CreateTicketResponseRegistered.md)
+[**models::CreateTicketResponseRegistered**](CreateTicketResponseRegistered.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -118,7 +118,7 @@ Name | Type | Description  | Required | Notes
 
 ## create_tickets_by_affiliate
 
-> crate::models::CreateTicketResponseUnregistered create_tickets_by_affiliate(tickets_request, x_lang, x_currency)
+> models::CreateTicketResponseUnregistered create_tickets_by_affiliate(tickets_request, x_lang, x_currency)
 Create new ticket(s) for new account as affiliate partner
 
 ### Parameters
@@ -132,7 +132,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::CreateTicketResponseUnregistered**](CreateTicketResponseUnregistered.md)
+[**models::CreateTicketResponseUnregistered**](CreateTicketResponseUnregistered.md)
 
 ### Authorization
 
@@ -148,7 +148,7 @@ Name | Type | Description  | Required | Notes
 
 ## create_unregistered_tickets
 
-> crate::models::CreateTicketResponseUnregistered create_unregistered_tickets(tickets_request, x_lang, x_currency, x_body_hash, x_re_captcha_token)
+> models::CreateTicketResponseUnregistered create_unregistered_tickets(tickets_request, x_lang, x_currency, x_body_hash, x_re_captcha_token)
 Create new ticket(s) for new account
 
 ### Parameters
@@ -164,7 +164,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::CreateTicketResponseUnregistered**](CreateTicketResponseUnregistered.md)
+[**models::CreateTicketResponseUnregistered**](CreateTicketResponseUnregistered.md)
 
 ### Authorization
 
@@ -180,7 +180,7 @@ No authorization required
 
 ## delete_passenger
 
-> crate::models::SuccessResponse delete_passenger(ticket_id, passenger_id, request, x_lang)
+> models::SuccessResponse delete_passenger(ticket_id, passenger_id, request, x_lang)
 Delete passenger from the ticket
 
 ### Parameters
@@ -195,11 +195,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -211,7 +211,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_all_tickets
 
-> Vec<crate::models::Ticket> get_all_tickets(x_lang, limit, offset, departure_from, departure_to, arrival_from, arrival_to, ticket_states, sort_property, sort_direction, simple)
+> Vec<models::Ticket> get_all_tickets(x_lang, limit, offset, departure_from, departure_to, arrival_from, arrival_to, ticket_states, sort_property, sort_direction, simple)
 Get all tickets of the user
 
 ### Parameters
@@ -233,11 +233,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Ticket>**](Ticket.md)
+[**Vec<models::Ticket>**](Ticket.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -249,7 +249,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_all_tickets_for_affiliate
 
-> Vec<crate::models::Ticket> get_all_tickets_for_affiliate(account_code, x_lang, limit, offset, departure_from, departure_to, arrival_from, arrival_to, ticket_states, sort_property, sort_direction)
+> Vec<models::Ticket> get_all_tickets_for_affiliate(account_code, x_lang, limit, offset, departure_from, departure_to, arrival_from, arrival_to, ticket_states, sort_property, sort_direction)
 Get all tickets of the user for affiliate partner
 
 ### Parameters
@@ -271,7 +271,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Ticket>**](Ticket.md)
+[**Vec<models::Ticket>**](Ticket.md)
 
 ### Authorization
 
@@ -287,7 +287,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_ticket_by_id
 
-> crate::models::Ticket get_ticket_by_id(ticket_id, x_lang)
+> models::Ticket get_ticket_by_id(ticket_id, x_lang)
 Get ticket by ID
 
 ### Parameters
@@ -300,11 +300,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Ticket**](Ticket.md)
+[**models::Ticket**](Ticket.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -316,7 +316,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_ticket_by_idfor_affiliate
 
-> crate::models::Ticket get_ticket_by_idfor_affiliate(ticket_id, account_code, x_lang)
+> models::Ticket get_ticket_by_idfor_affiliate(ticket_id, account_code, x_lang)
 Get ticket by ID for affiliate partner
 
 ### Parameters
@@ -330,7 +330,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Ticket**](Ticket.md)
+[**models::Ticket**](Ticket.md)
 
 ### Authorization
 
@@ -346,7 +346,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_ticket_detail_rating
 
-> Vec<crate::models::RatingFormData> get_ticket_detail_rating(ticket_id, x_lang)
+> Vec<models::RatingFormData> get_ticket_detail_rating(ticket_id, x_lang)
 Get ticket rating questions
 
 ### Parameters
@@ -359,11 +359,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::RatingFormData>**](RatingFormData.md)
+[**Vec<models::RatingFormData>**](RatingFormData.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -375,7 +375,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_ticket_qr_code
 
-> crate::models::QrCodeTicket get_ticket_qr_code(ticket_id, x_lang)
+> models::QrCodeTicket get_ticket_qr_code(ticket_id, x_lang)
 Get GR code for ticket
 
 Get QR code content in JSON format
@@ -390,11 +390,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::QrCodeTicket**](QrCodeTicket.md)
+[**models::QrCodeTicket**](QrCodeTicket.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -406,7 +406,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_ticket_qr_code_png
 
-> crate::models::QrCodeTicket get_ticket_qr_code_png(ticket_id, x_lang)
+> models::QrCodeTicket get_ticket_qr_code_png(ticket_id, x_lang)
 GR code for ticket
 
 Get QR code as a PNG image
@@ -421,11 +421,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::QrCodeTicket**](QrCodeTicket.md)
+[**models::QrCodeTicket**](QrCodeTicket.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -437,7 +437,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_unpaid_tickets
 
-> Vec<crate::models::Ticket> get_unpaid_tickets(x_lang, sort_property, sort_direction)
+> Vec<models::Ticket> get_unpaid_tickets(x_lang, sort_property, sort_direction)
 Get unpaid tickets (and tickets with remaining items to pay) of the user.
 
 ### Parameters
@@ -451,11 +451,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Ticket>**](Ticket.md)
+[**Vec<models::Ticket>**](Ticket.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -486,7 +486,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -498,7 +498,7 @@ Name | Type | Description  | Required | Notes
 
 ## put_ticket_detail_rating
 
-> crate::models::SuccessResponse put_ticket_detail_rating(ticket_id, rating, x_lang)
+> models::SuccessResponse put_ticket_detail_rating(ticket_id, rating, x_lang)
 Update ticket rating
 
 ### Parameters
@@ -512,11 +512,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -528,7 +528,7 @@ Name | Type | Description  | Required | Notes
 
 ## send_ticket_by_email
 
-> crate::models::SuccessResponse send_ticket_by_email(ticket_id, email, x_lang)
+> models::SuccessResponse send_ticket_by_email(ticket_id, email, x_lang)
 Send ticket to email
 
 ### Parameters
@@ -542,11 +542,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -558,7 +558,7 @@ Name | Type | Description  | Required | Notes
 
 ## update_passenger
 
-> crate::models::PassengerChangeResponse update_passenger(ticket_id, passenger_id, passenger, x_lang)
+> models::PassengerChangeResponse update_passenger(ticket_id, passenger_id, passenger, x_lang)
 Update passenger on the ticket
 
 ### Parameters
@@ -573,11 +573,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::PassengerChangeResponse**](PassengerChangeResponse.md)
+[**models::PassengerChangeResponse**](PassengerChangeResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 

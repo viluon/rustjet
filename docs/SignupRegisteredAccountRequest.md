@@ -11,11 +11,11 @@ Name | Type | Description | Notes
 **email** | **String** |  | 
 **mojeid** | Option<**String**> |  | [optional]
 **company_information** | Option<**bool**> |  | [optional][default to false]
-**company** | Option<[**crate::models::Company**](Company.md)> |  | [optional]
+**company** | Option<[**models::Company**](Company.md)> |  | [optional]
 **default_tariff** | **String** |  | 
-**currency** | [**crate::models::Currency**](Currency.md) |  | 
+**currency** | [**models::Currency**](Currency.md) |  | 
 **password** | **String** |  | 
-**notifications** | [**crate::models::Notifications**](Notifications.md) |  | 
+**notifications** | [**models::Notifications**](Notifications.md) |  | 
 **agree_with_terms** | **bool** | Agree with terms | [default to false]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

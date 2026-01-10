@@ -1,13 +1,13 @@
-use std::collections::HashMap;
 use anyhow::Result;
 use clap::Parser;
 use rustjet::{
     apis::{
+        configuration::{ApiKey, Configuration},
         users_api::{authenticate, login_registered_account},
-        configuration::{Configuration, ApiKey}
     },
-    models::{RegisteredLogin, Token}
+    models::{RegisteredLogin, Token},
 };
+use std::collections::HashMap;
 
 async fn login(code: &str, password: &str) -> Result<Configuration> {
     let credentials = RegisteredLogin {
@@ -15,12 +15,8 @@ async fn login(code: &str, password: &str) -> Result<Configuration> {
         password: password.to_string(),
     };
 
-    let Token { token } = login_registered_account(
-        &Default::default(),
-        credentials,
-        None,
-        None
-    ).await?;
+    let Token { token } =
+        login_registered_account(&Default::default(), credentials, None, None).await?;
 
     Ok(Configuration {
         api_key: Some(ApiKey {

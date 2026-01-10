@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 **icon_url** | **String** |  | 
 **info_url** | Option<**String**> |  | [optional]
 **info_url_label** | Option<**String**> |  | [optional]
-**price** | **f32** |  | 
-**currency** | [**crate::models::Currency**](Currency.md) |  | 
-**conditions** | [**crate::models::PriceConditions**](PriceConditions.md) |  | 
+**price** | **f64** |  | 
+**currency** | [**models::Currency**](Currency.md) |  | 
+**conditions** | [**models::PriceConditions**](PriceConditions.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

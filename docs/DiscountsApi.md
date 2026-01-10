@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## get_percentual_by_user
 
-> Vec<crate::models::Discount> get_percentual_by_user(x_lang)
+> Vec<models::Discount> get_percentual_by_user(x_lang)
 Get possible discounts for given account.
 
 ### Parameters
@@ -24,11 +24,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Discount>**](Discount.md)
+[**Vec<models::Discount>**](Discount.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -40,7 +40,7 @@ Name | Type | Description  | Required | Notes
 
 ## verify_code_discount
 
-> crate::models::VerifiedDiscountResponse verify_code_discount(code, ticket_request, x_lang, x_currency)
+> models::VerifiedDiscountResponse verify_code_discount(code, ticket_request, x_lang, x_currency)
 Verify code discount compatibility with a given route
 
 ### Parameters
@@ -55,11 +55,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::VerifiedDiscountResponse**](VerifiedDiscountResponse.md)
+[**models::VerifiedDiscountResponse**](VerifiedDiscountResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -71,7 +71,7 @@ Name | Type | Description  | Required | Notes
 
 ## verify_percentual_discount
 
-> crate::models::VerifiedDiscountResponse verify_percentual_discount(discount_id, request, x_lang, x_currency)
+> models::VerifiedDiscountResponse verify_percentual_discount(discount_id, request, x_lang, x_currency)
 Verify percentual discount compatibility with a given route
 
 ### Parameters
@@ -86,11 +86,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::VerifiedDiscountResponse**](VerifiedDiscountResponse.md)
+[**models::VerifiedDiscountResponse**](VerifiedDiscountResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 

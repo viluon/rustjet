@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **payment_method_code** | **String** | Payment method code identifier | 
-**payment_type** | [**crate::models::PaymentType**](PaymentType.md) |  | 
+**payment_type** | [**models::PaymentType**](PaymentType.md) |  | 
 **active** | **bool** | Checks if payment method is active | 
 **description** | Option<**String**> | Payment method status (for example: why its not available) | [optional]
 **deadline** | Option<**String**> | Payment method availability expiration date-time | [optional]

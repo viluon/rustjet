@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **i64** |  | 
 **percentage** | **i32** | Size of a percentual discount | 
-**amount** | **f32** | Discount sum in account currency | 
+**amount** | **f64** | Discount sum in account currency | 
 **passengers** | **i32** | Maximal number of passengers | 
 **from_location** | Option<**String**> | Default departure country/city/station translations | [optional]
 **to_location** | Option<**String**> | Default arrival country/city/station translations | [optional]

@@ -8,9 +8,9 @@ Name | Type | Description | Notes
 **vehicle_standard_key** | **String** |  | 
 **support** | **bool** | TRUE => support connnection; FALSE => RegioJet connection | 
 **support_code** | Option<**String**> | Codes of individuals support connection on a single route | [optional]
-**vehicle_type** | [**crate::models::VehicleType**](VehicleType.md) |  | 
+**vehicle_type** | [**models::VehicleType**](VehicleType.md) |  | 
 **fixed_seat_reservation** | **bool** | TRUE => seat reservation; FALSE => seat is chosen while boarding | 
-**line** | [**crate::models::Line**](Line.md) |  | 
+**line** | [**models::Line**](Line.md) |  | 
 **departure_station_id** | **i64** |  | 
 **departure_station_name** | Option<**String**> |  | [optional]
 **departure_city_id** | **i64** |  | 

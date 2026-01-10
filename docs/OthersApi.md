@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## send_conta_form
 
-> crate::models::SuccessResponse send_conta_form(request, x_lang, x_re_captcha_token)
+> models::SuccessResponse send_conta_form(request, x_lang, x_re_captcha_token)
 
 
 Sends support \"Contact our director\" form
@@ -26,7 +26,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
