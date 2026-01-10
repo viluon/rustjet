@@ -9,9 +9,10 @@ updates:
     labels:
       - "dependencies"
       - "rust"
-    commit-message:
-      prefix: "chore(deps)"
-      include: "scope"
+    groups:
+      cargo-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -20,5 +21,7 @@ updates:
     labels:
       - "dependencies"
       - "ci"
-    commit-message:
-      prefix: "chore(ci)"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
