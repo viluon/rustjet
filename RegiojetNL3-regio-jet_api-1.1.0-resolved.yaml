@@ -6,7 +6,7 @@ info:
   title: RegioJet API
   contact:
     email: developers@studentagency.cz
-host: dpl-qa-ybus-privapi.sa.cz
+host: brn-ybus-pubapi.sa.cz
 basePath: /restapi
 tags:
 - name: Users
