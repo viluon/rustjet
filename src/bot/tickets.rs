@@ -187,7 +187,6 @@ mod tests {
                 delay: None,
                 travel_time: "2h".to_string(),
                 estimated_arrival_time: None,
-                ..Default::default()
             }),
             fixed_seat_reservation: true,
             selected_seats: vec![],
