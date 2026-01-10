@@ -50,12 +50,11 @@ pub fn get_upcoming_tickets(tickets: &[Ticket], hours: i64) -> Vec<&Ticket> {
     tickets
         .iter()
         .filter(|ticket| {
-            if let Some(section) = ticket.route_sections.first() {
-                if let Ok(departure) = DateTime::parse_from_rfc3339(&section.section.departure_time)
-                {
-                    let departure_utc = departure.with_timezone(&Utc);
-                    return departure_utc >= now && departure_utc <= cutoff;
-                }
+            if let Some(section) = ticket.route_sections.first()
+                && let Ok(departure) = DateTime::parse_from_rfc3339(&section.section.departure_time)
+            {
+                let departure_utc = departure.with_timezone(&Utc);
+                return departure_utc >= now && departure_utc <= cutoff;
             }
             false
         })
