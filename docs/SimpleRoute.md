@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **credit_price_from** | **f64** |  | 
 **credit_price_to** | Option<**f64**> |  | [optional]
 **prices_count** | **i32** | Amount of prices | 
-**action_price** | **bool** | TRUE if any of prices is action price, otherwise FALSE | 
+**action_price** | [**models::ActionPrice**](ActionPrice.md) |  | 
 **surcharge** | **bool** | TRUE if there is surcharge on this line, otherwise FALSE | 
 **notices** | **bool** | Notice of any extraordinarily events on route / traffic limitation | 
 **support** | **bool** | TRUE if this line (or its part) have support connection, otherwise FALSE | 
@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **bookable** | **bool** | TRUE if at least one class have enough free seats for reservation, otherwise FALSE | 
 **delay** | Option<**String**> | Textual information about the first delay on the route | [optional]
 **travel_time** | Option<**String**> | Textual information about the travel time on the route | [optional]
-**vehicle_standard_key** | Option<**String**> | Vehicle standard code tag | [optional]
+**vehicle_standards** | Option<**Vec<String>**> | Vehicle standards | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

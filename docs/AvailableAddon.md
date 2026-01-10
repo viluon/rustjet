@@ -5,7 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **addon_id** | **i64** |  | 
+**addon_code** | **String** |  | 
 **name** | **String** |  | 
+**short_description** | **String** |  | 
 **description** | **String** |  | 
 **icon_url** | **String** |  | 
 **info_url** | Option<**String**> |  | [optional]

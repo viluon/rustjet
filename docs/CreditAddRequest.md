@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **payment_method_code** | **String** |  | 
 **correlation_id** | **String** |  | 
 **form_fields** | [**Vec<models::PaymentFormFieldValue>**](PaymentFormFieldValue.md) |  | 
+**remember_card** | Option<**bool**> |  | [optional][default to false]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

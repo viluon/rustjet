@@ -4,21 +4,26 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **i64** | ID of the time ticket | 
-**account_code** | Option<**i64**> | Account code of the time ticket owner | [optional]
-**station1_id** | **i64** | ID of the station one | 
-**station2_id** | **i64** | ID of the station two | 
-**name** | Option<**String**> | Name of the ticket owner | [optional]
-**surname** | Option<**String**> | Surname of the ticket owner | [optional]
+**id** | **i64** | ID of the ticket | 
+**account_code** | **String** |  | 
+**ticket_code** | **String** |  | 
+**price** | **f64** |  | 
+**unpaid** | **f64** |  | 
+**name** | **String** |  | 
+**sur_name** | **String** |  | 
 **tariff** | [**models::Tariff**](Tariff.md) |  | 
 **r#type** | [**models::TimeTicketType**](TimeTicketType.md) |  | 
 **state** | [**models::TicketState**](TicketState.md) |  | 
-**seat_class** | [**models::SeatClass**](SeatClass.md) |  | 
+**seat_class** | **String** |  | 
+**conditions** | [**models::TimeTicketConditions**](TimeTicketConditions.md) |  | 
+**customer_notifications** | Option<**Vec<String>**> |  | [optional]
+**customer_actions** | [**models::CustomerActions**](CustomerActions.md) |  | 
+**bills** | [**Vec<models::TimeTicketBill>**](TimeTicketBill.md) |  | 
+**station1_id** | **i64** |  | 
+**station2_id** | **i64** |  | 
 **valid_from** | **String** |  | 
-**valid_to** | Option<**String**> |  | [optional]
-**customer_actions** | [**models::TimeTicketCustomerAction**](TimeTicketCustomerAction.md) |  | 
-**conditions** | [**models::PriceConditions**](PriceConditions.md) |  | 
-**bills** | Option<[**Vec<models::TimeTicketBill>**](TimeTicketBill.md)> |  | [optional]
+**valid_to** | **String** |  | 
+**payment_id** | **i64** | Time ticket group transaction ID | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -5,7 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **key** | **String** | enum.name | 
+**vehicle_class** | Option<**String**> | Vehicle class. | [optional]
 **title** | **String** | Class title | 
+**short_description** | **String** | Class shortDescription. | 
 **description** | **String** | Class descriptions. | 
 **image_url** | Option<**String**> |  | [optional]
 **gallery_url** | Option<**String**> | Class photogalery URL | [optional]

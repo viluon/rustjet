@@ -113,14 +113,18 @@ impl From<&str> for ContentType {
     }
 }
 
+pub mod accounts_api;
 pub mod addons_api;
+pub mod apple_wallet_api;
 pub mod consts_api;
-pub mod content_api;
+pub mod devices_api;
 pub mod discounts_api;
+pub mod identities_api;
 pub mod others_api;
 pub mod payments_api;
-pub mod price_list_api;
+pub mod price_lists_api;
 pub mod routes_api;
+pub mod seat_reservation_only_tickets_api;
 pub mod tickets_api;
 pub mod time_tickets_api;
 pub mod users_api;

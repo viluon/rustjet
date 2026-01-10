@@ -5,6 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **connection_id** | **i64** | section.id (necessarily to get informations about line detail) | 
+**line_code** | **String** | Line group code. | 
+**line_number** | **i32** | Line number. | 
 **code** | Option<**String**> | Line connection code (as unique identifier as line connection departure date) | [optional]
 **from** | **String** | Departure city of line connection | 
 **to** | **String** | Arrival city of line connection | 

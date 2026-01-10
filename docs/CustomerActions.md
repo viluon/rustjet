@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **sent_to_mail** | **bool** |  | [default to false]
 **print_ticket** | **bool** |  | [default to false]
 **print_invoice** | **bool** |  | [default to false]
+**required_to_fill_in_questionnaire** | **bool** |  | [default to false]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

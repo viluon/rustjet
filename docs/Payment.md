@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **payment_id** | **i64** |  | 
 **ticket_id** | Option<**i64**> |  | [optional]
+**ticket_type** | Option<[**models::PaymentTicketType**](PaymentTicketType.md)> |  | [optional]
 **description** | Option<**String**> |  | [optional]
 **amount** | **f64** |  | 
 **currency** | [**models::Currency**](Currency.md) |  | 
