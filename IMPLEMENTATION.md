@@ -1,168 +1,262 @@
-# Implementation Guide - Phases 6-8
+# Implementation Guide
 
-## Phase 6: Telegram Bot
+## Status: Phase 6 Complete ✓
 
-### Directory structure
-```
-src/
-├── bin/
-│   ├── main.rs          # Existing CLI PoC
-│   └── bot.rs           # New: Bot entry point
-├── bot/
-│   ├── mod.rs
-│   ├── config.rs        # Config from env vars
-│   ├── handlers.rs      # Command handlers
-│   ├── tickets.rs       # Ticket viewing logic
-│   ├── notifications.rs # Background notification service
-│   └── state.rs         # Conversation state
-├── storage/
-│   ├── mod.rs
-│   └── credentials.rs   # User credential storage
-```
+Bot infrastructure implemented with atomic commits:
+- Storage layer with SQLite credentials store (base64 placeholder encryption)
+- Bot config loading from env vars (.env.example provided)
+- Ticket fetching and formatting (RegioJet API integration)
+- Command handlers (/start, /login, /mytickets, /notifications, /help)
+- Background notification service (periodic ticket checks)
+- Conversation state management (login wizard)
+- Bot entry point with teloxide dispatcher
 
-### Dependencies to add
-```toml
-rusqlite = { version = "0.32", features = ["bundled"] }
-dotenv = "0.15"
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-```
+## Lessons Learned
 
-### Configuration (bot/config.rs)
-Environment variables:
-- TELEGRAM_BOT_TOKEN - from @BotFather
-- CREDENTIALS_DB_PATH - SQLite database path (default: credentials.db)
-- NOTIFICATION_MINUTES_BEFORE - when to notify (default: 60)
-- NOTIFICATION_CHECK_INTERVAL - polling interval (default: 300s)
+Atomic commits essential for clean history. Spawning subagents creates large changesets that violate atomicity - better to implement incrementally by hand. Always `just check` after every change, not just at end of phase. Formatting and clippy fixes belong in separate commits from feature work.
 
-Create .env.example with these vars.
+## Phase 7: Integration Testing
 
-### Storage (storage/credentials.rs)
-SQLite schema:
-```sql
-CREATE TABLE credentials (
-    telegram_user_id INTEGER PRIMARY KEY,
-    regiojet_account_code TEXT NOT NULL,
-    encrypted_password TEXT NOT NULL
-)
-```
+Unit tests exist in modules (10 passing tests in bot/tickets and storage/credentials). Need integration tests for end-to-end flows.
 
-Functions:
-- CredentialsStore::new(db_path) - Initialize DB
-- store_credentials(user_id, code, password) - Save encrypted
-- get_credentials(user_id) - Retrieve and decrypt
-
-Note: Use placeholder encryption initially, improve later.
-
-### Bot Commands (bot/handlers.rs)
-Implement:
-- /start - Welcome message
-- /login - Credential setup wizard (multi-step conversation)
-- /mytickets - View upcoming tickets
-- /notifications - Toggle notifications
-- /help - Show commands
-
-Use teloxide BotCommands derive macro.
-
-### Ticket Viewing (bot/tickets.rs)
-Core functions:
-- fetch_user_tickets(account_code, password) - Login + fetch from RegioJet API
-- format_tickets_message(tickets) - Format for Telegram
-- get_upcoming_tickets(tickets, hours) - Filter by time
-
-Integration:
-- Use login_registered_account() from generated API
-- Use get_all_tickets() from generated API
-- Parse ticket sections (from → to, time, price)
-
-### Notifications (bot/notifications.rs)
-Background service:
-- Runs every NOTIFICATION_CHECK_INTERVAL seconds
-- For each user with stored credentials:
-  1. Fetch their tickets
-  2. Check if any depart within notification window
-  3. Send Telegram notification if needed
-
-Functions:
-- start_notification_service(bot, store, config) - Main loop
-- check_and_send_notifications() - Check all users
-- send_departure_notification(bot, user_id, info) - Send message
-
-### Bot Entry Point (bin/bot.rs)
-1. Load config from env
-2. Initialize credentials store
-3. Create bot instance
-4. Spawn notification service in background
-5. Setup message dispatcher with handlers
-6. Start polling for updates
-
-Add to Cargo.toml:
-```toml
-[[bin]]
-name = "bot"
-path = "src/bin/bot.rs"
-```
-
-Update .gitignore:
-- .env
-- credentials.db
-
-## Phase 7: Testing
-
-### Unit tests
-Test in respective modules:
-- format_tickets_message() with mock tickets
-- Upcoming ticket filtering logic
-- Credential encryption/decryption
-
-### Integration tests
-Create tests/integration_test.rs:
-- Mock RegioJet API with mockito crate
-- Test full login → fetch tickets flow
-- Test bot handlers with mock responses
-
-Add to Cargo.toml dev-dependencies:
+### Add dev-dependencies
 ```toml
 [dev-dependencies]
-tokio-test = "0.4"
-mockito = "1.5"
+mockito = "1.5"      # HTTP mocking for RegioJet API
+tokio-test = "0.4"   # Async test utilities
 ```
+
+### Create tests/integration_test.rs
+
+Mock RegioJet API endpoints:
+- POST /login_registered_account → return mock token
+- GET /tickets → return mock ticket list with various states
+
+Test flows:
+1. Login flow: verify credentials → store in DB → fetch tickets
+2. Ticket filtering: mock tickets with different departure times → verify get_upcoming_tickets filtering
+3. Notification service: mock user with upcoming departure → verify bot sends message
+4. Error handling: invalid credentials → appropriate error message
+
+Use mockito to create HTTP server stub. Test with in-memory SQLite (":memory:"). Mock teloxide Bot with Arc<Mutex<Vec<Message>>> to capture sent messages.
+
+Commit: "Add integration tests for login and ticket flows"
 
 ## Phase 8: Documentation
 
 ### Update README.md
-Add:
-- Features overview (view tickets, notifications)
-- Setup with Nix
-- Configuration guide (environment variables)
-- Bot commands list
-- Development workflow (just commands)
-- Architecture diagram (text-based)
 
-### Create .env.example
-Document all environment variables with example values.
+Current README is minimal. Replace with comprehensive guide:
 
-### Update .gitignore
-Ensure .env and credentials.db are excluded.
+**Features section:**
+- View upcoming RegioJet tickets via Telegram
+- Automatic notifications before departure
+- Secure credential storage (encrypted)
+- Multi-user support
+
+**Setup:**
+```bash
+# With Nix
+nix develop
+just check
+
+# Configure bot
+cp .env.example .env
+# Edit .env with bot token from @BotFather
+
+# Run
+cargo run --bin bot
+```
+
+**Bot Commands:**
+- /start - Initialize bot
+- /login - Link RegioJet account (interactive wizard)
+- /mytickets - Show tickets departing in next 30 days
+- /notifications - Info about notification settings
+- /help - Command list
+
+**Development:**
+```bash
+just fmt      # Format code
+just check    # Format + clippy + test
+just build    # Build release binary
+just test     # Run tests
+```
+
+**Architecture:**
+```
+┌─────────────┐
+│ Telegram    │
+│ Bot API     │
+└──────┬──────┘
+       │
+       v
+┌──────────────────┐      ┌──────────────┐
+│ bot/handlers.rs  │─────>│ bot/state.rs │
+│ (commands)       │      │ (dialogue)   │
+└────┬─────────────┘      └──────────────┘
+     │
+     v
+┌──────────────────┐      ┌──────────────────┐
+│ bot/tickets.rs   │─────>│ apis/*           │
+│ (fetch/format)   │      │ (RegioJet client)│
+└──────────────────┘      └──────────────────┘
+     │
+     v
+┌──────────────────────┐  ┌────────────────────┐
+│ storage/credentials  │─>│ credentials.db     │
+│ (encrypted storage)  │  │ (SQLite)           │
+└──────────────────────┘  └────────────────────┘
+```
+
+Commit: "Document setup, usage, and architecture"
 
 ### Optional: DEPLOYMENT.md
-Add deployment guides for:
-- systemd service
-- NixOS module
-- Environment variable management
 
-## Phase 9: Refactoring
+Create deployment guide for production:
+- systemd service unit file
+- NixOS module configuration
+- Environment variable management (systemd EnvironmentFile)
+- Log rotation (journald integration)
+- Security: file permissions for credentials.db, TLS for webhook mode
 
-### Adopt the hexagonal architecture
-- Structure code such that API depends on business logic, not vice-versa
-- Keep model crates free of dependencies (type definitions and trait impls only)
-- Connect independent modules with ports and adapters
+Commit: "Add deployment guide"
 
-### Avoid reliance on environment variables
-- Pass configuration explicitly through constructors
-- Use a Config struct to encapsulate settings
-- Load config from a file
+## Phase 9: Workspace Refactoring
 
-### Get rid of SQLite
-- A Serde struct is enough for the storage format
-- An SQL RDBMS is overkill
+### Move OpenAPI generated code to separate crate
+
+Current: All code in monolithic rustjet crate.
+Problem: Generated API code pollutes main crate, hard to regenerate, couples business logic to API client.
+
+Solution: Cargo workspace with multiple crates.
+
+**Directory structure:**
+```
+rustjet/
+├── Cargo.toml          # Workspace manifest
+├── crates/
+│   ├── regiojet-api/   # Generated OpenAPI client
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── apis/
+│   │       └── models/
+│   ├── rustjet-core/   # Bot implementation
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── bot/
+│   │       ├── storage/
+│   │       └── lib.rs
+│   └── rustjet-cli/    # CLI tools
+│       ├── Cargo.toml
+│       └── src/
+│           ├── bin/bot.rs
+│           └── bin/main.rs
+```
+
+**Workspace Cargo.toml:**
+```toml
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+
+[workspace.dependencies]
+anyhow = "1.0"
+tokio = { version = "1", features = ["full"] }
+serde = "1.0"
+# ... shared deps
+```
+
+**Benefits:**
+- Clean separation: API client vs business logic
+- Independent versioning
+- Easier to regenerate API code without conflicts
+- Smaller compile units
+
+**Migration steps:**
+1. Create workspace structure with `cargo new --lib` for each crate
+2. Move src/apis + src/models → regiojet-api crate
+3. Move src/bot + src/storage → rustjet-core crate
+4. Move src/bin → rustjet-cli crate
+5. Update dependencies: rustjet-core depends on regiojet-api
+6. Update imports: `crate::apis` → `regiojet_api::apis`
+7. Test and commit atomically per crate
+
+Each crate commit separately: "Create regiojet-api workspace crate", "Create rustjet-core workspace crate", etc.
+
+## Phase 10: Architectural Improvements
+
+### Adopt hexagonal architecture
+
+Current issues:
+- bot/tickets.rs directly imports generated API types
+- Storage layer tightly coupled to SQLite
+- Config loaded from env inside modules
+
+**Port/adapter pattern:**
+
+Define traits in core domain:
+```rust
+// rustjet-core/src/domain/ports.rs
+trait TicketRepository {
+    async fn fetch_tickets(&self, user: &User) -> Result<Vec<Ticket>>;
+}
+
+trait CredentialStore {
+    fn save(&self, creds: Credentials) -> Result<()>;
+    fn load(&self, user_id: i64) -> Result<Option<Credentials>>;
+}
+```
+
+Implementations as adapters:
+```rust
+// rustjet-core/src/adapters/regiojet.rs
+struct RegioJetTicketRepository { client: RegioJetClient }
+
+impl TicketRepository for RegioJetTicketRepository {
+    async fn fetch_tickets(&self, user: &User) -> Result<Vec<Ticket>> {
+        // Translate domain types to/from API types
+    }
+}
+```
+
+**Benefits:**
+- Domain logic independent of external APIs
+- Easy to mock for testing
+- Swap implementations without changing business logic
+
+### Replace SQLite with simpler storage
+
+SQLite overkill for simple key-value store. Replace with:
+```rust
+// rustjet-core/src/adapters/file_store.rs
+#[derive(Serialize, Deserialize)]
+struct CredentialStorage {
+    users: HashMap<i64, Credentials>,
+}
+
+impl CredentialStore for FileCredentialStore {
+    fn save(&self, creds: Credentials) -> Result<()> {
+        let mut storage = self.load_from_disk()?;
+        storage.users.insert(creds.user_id, creds);
+        self.save_to_disk(&storage)
+    }
+}
+```
+
+Use serde_json or toml for serialization. Atomic file writes with temp file + rename.
+
+### Explicit config injection
+
+Remove `dotenv::dotenv()` calls scattered in code. Instead:
+
+```rust
+// rustjet-cli/src/bin/bot.rs
+fn main() -> Result<()> {
+    let config = Config::from_file("config.toml")?;
+    let bot = BotService::new(config);
+    bot.run().await
+}
+```
+
+Config becomes dependency injected, not global state. Testable without env vars.
