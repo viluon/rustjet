@@ -16,7 +16,7 @@ async fn login(code: &str, password: &str) -> Result<Configuration> {
     };
 
     let Token { token } =
-        login_registered_account(&Default::default(), credentials, None, None).await?;
+        login_registered_account(&Default::default(), credentials, None, None, None).await?;
 
     Ok(Configuration {
         api_key: Some(ApiKey {
@@ -39,10 +39,10 @@ struct Cli {
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Cli::parse();
-    let config = login(&args.code, &args.password).await?;
+    let config = login(&args.code, &args.password).await;
     println!("{:#?}", config);
 
-    let user = authenticate(&config, None).await?;
+    let user = authenticate(&config?, None, None).await?;
     println!("{:#?}", user);
 
     let resp = reqwest::get("https://httpbin.org/ip")
