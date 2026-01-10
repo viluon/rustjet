@@ -54,19 +54,7 @@ Current README is minimal. Replace with comprehensive guide:
 - Secure credential storage (encrypted)
 - Multi-user support
 
-**Setup:**
-```bash
-# With Nix
-nix develop
-just check
-
-# Configure bot
-cp .env.example .env
-# Edit .env with bot token from @BotFather
-
-# Run
-cargo run --bin bot
-```
+**Setup:** Use Nix develop, configure .env from .env.example with bot token, run bot binary.
 
 **Bot Commands:**
 - /start - Initialize bot
@@ -75,39 +63,9 @@ cargo run --bin bot
 - /notifications - Info about notification settings
 - /help - Command list
 
-**Development:**
-```bash
-just fmt      # Format code
-just check    # Format + clippy + test
-just build    # Build release binary
-just test     # Run tests
-```
+**Development:** Use `just fmt`, `just check`, `just build`, `just test` commands.
 
-**Architecture:**
-```
-┌─────────────┐
-│ Telegram    │
-│ Bot API     │
-└──────┬──────┘
-       │
-       v
-┌──────────────────┐      ┌──────────────┐
-│ bot/handlers.rs  │─────>│ bot/state.rs │
-│ (commands)       │      │ (dialogue)   │
-└────┬─────────────┘      └──────────────┘
-     │
-     v
-┌──────────────────┐      ┌──────────────────┐
-│ bot/tickets.rs   │─────>│ apis/*           │
-│ (fetch/format)   │      │ (RegioJet client)│
-└──────────────────┘      └──────────────────┘
-     │
-     v
-┌──────────────────────┐  ┌────────────────────┐
-│ storage/credentials  │─>│ credentials.db     │
-│ (encrypted storage)  │  │ (SQLite)           │
-└──────────────────────┘  └────────────────────┘
-```
+**Architecture:** Telegram → handlers → tickets → APIs; handlers ↔ state; tickets → credentials DB.
 
 Commit: "Document setup, usage, and architecture"
 
@@ -131,41 +89,7 @@ Problem: Generated API code pollutes main crate, hard to regenerate, couples bus
 
 Solution: Cargo workspace with multiple crates.
 
-**Directory structure:**
-```
-rustjet/
-├── Cargo.toml          # Workspace manifest
-├── crates/
-│   ├── regiojet-api/   # Generated OpenAPI client
-│   │   ├── Cargo.toml
-│   │   └── src/
-│   │       ├── apis/
-│   │       └── models/
-│   ├── rustjet-core/   # Bot implementation
-│   │   ├── Cargo.toml
-│   │   └── src/
-│   │       ├── bot/
-│   │       ├── storage/
-│   │       └── lib.rs
-│   └── rustjet-cli/    # CLI tools
-│       ├── Cargo.toml
-│       └── src/
-│           ├── bin/bot.rs
-│           └── bin/main.rs
-```
-
-**Workspace Cargo.toml:**
-```toml
-[workspace]
-members = ["crates/*"]
-resolver = "2"
-
-[workspace.dependencies]
-anyhow = "1.0"
-tokio = { version = "1", features = ["full"] }
-serde = "1.0"
-# ... shared deps
-```
+**Crates:** regiojet-api (generated client), rustjet-core (bot logic), rustjet-cli (binaries).
 
 **Benefits:**
 - Clean separation: API client vs business logic
@@ -193,32 +117,7 @@ Current issues:
 - Storage layer tightly coupled to SQLite
 - Config loaded from env inside modules
 
-**Port/adapter pattern:**
-
-Define traits in core domain:
-```rust
-// rustjet-core/src/domain/ports.rs
-trait TicketRepository {
-    async fn fetch_tickets(&self, user: &User) -> Result<Vec<Ticket>>;
-}
-
-trait CredentialStore {
-    fn save(&self, creds: Credentials) -> Result<()>;
-    fn load(&self, user_id: i64) -> Result<Option<Credentials>>;
-}
-```
-
-Implementations as adapters:
-```rust
-// rustjet-core/src/adapters/regiojet.rs
-struct RegioJetTicketRepository { client: RegioJetClient }
-
-impl TicketRepository for RegioJetTicketRepository {
-    async fn fetch_tickets(&self, user: &User) -> Result<Vec<Ticket>> {
-        // Translate domain types to/from API types
-    }
-}
-```
+**Port/adapter pattern:** Define domain traits, implement as adapters. Decouple business logic from external APIs.
 
 **Benefits:**
 - Domain logic independent of external APIs
@@ -227,36 +126,8 @@ impl TicketRepository for RegioJetTicketRepository {
 
 ### Replace SQLite with simpler storage
 
-SQLite overkill for simple key-value store. Replace with:
-```rust
-// rustjet-core/src/adapters/file_store.rs
-#[derive(Serialize, Deserialize)]
-struct CredentialStorage {
-    users: HashMap<i64, Credentials>,
-}
-
-impl CredentialStore for FileCredentialStore {
-    fn save(&self, creds: Credentials) -> Result<()> {
-        let mut storage = self.load_from_disk()?;
-        storage.users.insert(creds.user_id, creds);
-        self.save_to_disk(&storage)
-    }
-}
-```
-
-Use serde_json or toml for serialization. Atomic file writes with temp file + rename.
+SQLite overkill for simple key-value store. Use serde_json or toml file storage with atomic writes instead.
 
 ### Explicit config injection
 
-Remove `dotenv::dotenv()` calls scattered in code. Instead:
-
-```rust
-// rustjet-cli/src/bin/bot.rs
-fn main() -> Result<()> {
-    let config = Config::from_file("config.toml")?;
-    let bot = BotService::new(config);
-    bot.run().await
-}
-```
-
-Config becomes dependency injected, not global state. Testable without env vars.
+Load config from file and pass explicitly to services. Remove scattered `dotenv::dotenv()` calls. Enable testing without env vars.
