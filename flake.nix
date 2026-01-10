@@ -58,6 +58,7 @@
             rustToolchain
             pkgs.openapi-generator-cli
             pkgs.clang
+            pkgs.just
           ] ++ nativeBuildInputs ++ buildInputs;
 
           shellHook = ''
