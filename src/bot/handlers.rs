@@ -142,16 +142,15 @@ async fn handle_help(bot: Bot, msg: Message) -> Result<()> {
 }
 
 /// Handle account code input during login
-pub async fn handle_account_code(
-    bot: Bot,
-    msg: Message,
-    dialogue: MyDialogue,
-) -> Result<()> {
+pub async fn handle_account_code(bot: Bot, msg: Message, dialogue: MyDialogue) -> Result<()> {
     let account_code = msg.text().unwrap_or("").trim().to_string();
 
     if account_code.is_empty() {
-        bot.send_message(msg.chat.id, "Account code cannot be empty. Please try again:")
-            .await?;
+        bot.send_message(
+            msg.chat.id,
+            "Account code cannot be empty. Please try again:",
+        )
+        .await?;
         return Ok(());
     }
 

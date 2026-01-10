@@ -6,5 +6,7 @@ pub enum State {
     #[default]
     Start,
     AwaitingAccountCode,
-    AwaitingPassword { account_code: String },
+    AwaitingPassword {
+        account_code: String,
+    },
 }
