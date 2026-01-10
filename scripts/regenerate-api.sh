@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SPEC_FILE="${1:-RegiojetNL3-regio-jet_api-1.1.0-resolved.yaml}"
+SPEC_FILE="${1:-regiojet-1.2.0.yaml}"
 OUTPUT_DIR="."
 
 echo "Regenerating API client from $SPEC_FILE..."
