@@ -1,21 +1,19 @@
 # Implementation Guide
 
-## Status: Phase 6 Complete ✓
+## Status: Phase 7 Complete ✓
 
-Bot infrastructure implemented with atomic commits:
-- Storage layer with SQLite credentials store (base64 placeholder encryption)
-- Bot config loading from env vars (.env.example provided)
-- Ticket fetching and formatting (RegioJet API integration)
-- Command handlers (/start, /login, /mytickets, /notifications, /help)
-- Background notification service (periodic ticket checks)
-- Conversation state management (login wizard)
-- Bot entry point with teloxide dispatcher
+**Phase 6**: Bot infrastructure implemented with atomic commits.
+
+**Phase 7**: Integration testing complete:
+- Dev-dependencies (mockito, tokio-test)
+- Integration tests for ticket filtering, formatting, credentials storage
+- All 14 tests passing (10 unit + 4 integration)
 
 ## Lessons Learned
 
 Atomic commits essential for clean history. Spawning subagents creates large changesets that violate atomicity - better to implement incrementally by hand. Always `just check` after every change, not just at end of phase. Formatting and clippy fixes belong in separate commits from feature work.
 
-## Phase 7: Integration Testing
+## Phase 7: Integration Testing ✓
 
 Unit tests exist in modules (10 passing tests in bot/tickets and storage/credentials). Need integration tests for end-to-end flows.
 
