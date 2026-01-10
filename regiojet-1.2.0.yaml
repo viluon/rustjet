@@ -3835,7 +3835,6 @@ paths:
         - "application/json"
       parameters:
         - $ref: '#/parameters/routeId'
-        - $ref: '#/definitions/PaymentTicketType'
         - $ref: '#/parameters/xApplicationOrigin'
         - $ref: '#/parameters/xLang'
         - $ref: '#/parameters/xCurrency'
