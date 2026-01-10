@@ -7,8 +7,12 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0"
+base64 = "0.22"
+chrono = "0.4"
 clap = { version = "4.5", features = ["derive"] }
+dotenv = "0.15"
 reqwest = { version = "0.12", features = ["json", "multipart"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
@@ -16,7 +20,13 @@ serde_repr = "0.1"
 teloxide = { version = "0.17", features = ["macros"] }
 tokio = { version = "1", features = ["full", "rt-multi-thread", "macros"] }
 tokio-util = { version = "0.7", features = ["codec"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = "2.5"
+
+[[bin]]
+name = "bot"
+path = "src/bin/bot.rs"
 
 [profile.release]
 debug = true
