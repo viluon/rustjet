@@ -1,5 +1,3 @@
-.gitignore
-.travis.yml
 README.md
 docs/ActionPrice.md
 docs/AddGiftCertificateRequest.md

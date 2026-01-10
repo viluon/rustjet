@@ -22,7 +22,7 @@ rustjet = { path = "./rustjet" }
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://dpl-qa-ybus-privapi.sa.cz/restapi*
+All URIs are relative to *https://brn-ybus-pubapi.sa.cz/restapi*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

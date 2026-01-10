@@ -1,6 +1,6 @@
 # \OthersApi
 
-All URIs are relative to *https://dpl-qa-ybus-privapi.sa.cz/restapi*
+All URIs are relative to *https://brn-ybus-pubapi.sa.cz/restapi*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
