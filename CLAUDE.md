@@ -5,3 +5,4 @@ Git workflow:
 - Commit messages: imperative present tense ("Move implementation", "Abstract with a macro", "Avoid specifying defaults")
 - *Atomic commits* - minimal, focused changes for easy reordering/squashing
 - Build & test after every change
+- Always use `just` commands, e.g. `just build`, `just check`, `just fmt`, not `cargo ...`
