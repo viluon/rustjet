@@ -32,11 +32,11 @@ async fn login(code: &str, password: &str) -> Result<Configuration> {
 }
 
 #[derive(Parser, Clone, Debug)]
-#[clap(author, version, about, long_about = None)]
+#[command(author, version, about, long_about = None)]
 struct Cli {
-    #[clap(short, long)]
+    #[arg(short, long)]
     code: String,
-    #[clap(short, long)]
+    #[arg(short, long)]
     password: String,
 }
 
