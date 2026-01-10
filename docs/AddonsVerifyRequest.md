@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**selected_addons** | [**Vec<crate::models::SelectedAddon>**](SelectedAddon.md) |  | 
-**route_sections** | [**Vec<crate::models::RouteSectionRequest>**](RouteSectionRequest.md) |  | 
+**selected_addons** | [**Vec<models::SelectedAddon>**](SelectedAddon.md) |  | 
+**route_sections** | [**Vec<models::RouteSectionRequest>**](RouteSectionRequest.md) |  | 
 **tariffs** | **Vec<String>** |  | 
 **ticket_id** | Option<**i64**> |  | [optional]
 

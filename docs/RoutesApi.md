@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## get_departures
 
-> crate::models::ArrivalDepartureConnection get_departures(station_id, x_lang, limit)
+> models::ArrivalDepartureConnection get_departures(station_id, x_lang, limit)
 Get arrivals and departures for the given station.
 
 ### Parameters
@@ -29,7 +29,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::ArrivalDepartureConnection**](ArrivalDepartureConnection.md)
+[**models::ArrivalDepartureConnection**](ArrivalDepartureConnection.md)
 
 ### Authorization
 
@@ -45,7 +45,7 @@ No authorization required
 
 ## get_passengers_data
 
-> crate::models::PassengersDataResponse get_passengers_data(route_id, filter, x_lang, x_currency)
+> models::PassengersDataResponse get_passengers_data(route_id, filter, x_lang, x_currency)
 Get mandatory data of  first passenger and others passengers for the given route.
 
 ### Parameters
@@ -60,7 +60,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::PassengersDataResponse**](PassengersDataResponse.md)
+[**models::PassengersDataResponse**](PassengersDataResponse.md)
 
 ### Authorization
 
@@ -76,7 +76,7 @@ No authorization required
 
 ## get_route_free_seats
 
-> crate::models::RouteSeatsResponse get_route_free_seats(route_id, request, x_lang)
+> models::RouteSeatsResponse get_route_free_seats(route_id, request, x_lang)
 Get route tandem free seats group by vehicle
 
 ### Parameters
@@ -90,7 +90,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::RouteSeatsResponse**](RouteSeatsResponse.md)
+[**models::RouteSeatsResponse**](RouteSeatsResponse.md)
 
 ### Authorization
 
@@ -106,7 +106,7 @@ No authorization required
 
 ## get_simple_route_detail
 
-> crate::models::Route get_simple_route_detail(route_id, from_station_id, to_station_id, x_lang, x_currency, tariffs)
+> models::Route get_simple_route_detail(route_id, from_station_id, to_station_id, x_lang, x_currency, tariffs)
 Get detail for the given route.
 
 ### Parameters
@@ -123,7 +123,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Route**](Route.md)
+[**models::Route**](Route.md)
 
 ### Authorization
 
@@ -139,7 +139,7 @@ No authorization required
 
 ## search_routes
 
-> crate::models::SearchResult search_routes(from_location_id, from_location_type, to_location_id, to_location_type, x_lang, x_currency, departure_time, tariffs, action_price)
+> models::SearchResult search_routes(from_location_id, from_location_type, to_location_id, to_location_type, x_lang, x_currency, departure_time, tariffs, action_price)
 Get collection of all routes that satisfy specified search criteria for the route.
 
 Authorization not required (filtres info bubbles)
@@ -161,11 +161,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SearchResult**](SearchResult.md)
+[**models::SearchResult**](SearchResult.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -177,7 +177,7 @@ Name | Type | Description  | Required | Notes
 
 ## simple_search_routes
 
-> crate::models::SimpleSearchResult simple_search_routes(from_location_id, from_location_type, to_location_id, to_location_type, x_lang, x_currency, x_used_departure_from_date_time, x_used_departure_to_date_time, departure_date, tariffs, action_price, _move)
+> models::SimpleSearchResult simple_search_routes(from_location_id, from_location_type, to_location_id, to_location_type, x_lang, x_currency, x_used_departure_from_date_time, x_used_departure_to_date_time, departure_date, tariffs, action_price, r#move)
 Get collection of all routes that satisfy specified search criteria for the route.
 
 Authorization not required (filtres info bubbles)
@@ -198,15 +198,15 @@ Name | Type | Description  | Required | Notes
 **departure_date** | Option<**String**> | Departure date |  |
 **tariffs** | Option<[**Vec<String>**](String.md)> | Ticket tariff |  |
 **action_price** | Option<**String**> | Code indication of a current marketing action. Filtres searched routes on current marketing action. List of all marketing action for current route included in endpoint /consts/actionPrices. |  |
-**_move** | Option<**String**> | Move search FORWARD/BACKWARD |  |
+**r#move** | Option<**String**> | Move search FORWARD/BACKWARD |  |
 
 ### Return type
 
-[**crate::models::SimpleSearchResult**](SimpleSearchResult.md)
+[**models::SimpleSearchResult**](SimpleSearchResult.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 

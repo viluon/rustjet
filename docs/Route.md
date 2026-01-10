@@ -17,16 +17,16 @@ Name | Type | Description | Notes
 **arrival_city_name** | Option<**String**> |  | [optional]
 **arrival_time** | **String** |  | 
 **free_seats_count** | **i32** | Returns smallest number of available free seats through all sections | 
-**price_from** | Option<**f32**> |  | [optional]
-**price_to** | Option<**f32**> |  | [optional]
-**credit_price_from** | Option<**f32**> |  | [optional]
-**credit_price_to** | Option<**f32**> |  | [optional]
-**vehicle_types** | Option<[**Vec<crate::models::VehicleType>**](VehicleType.md)> |  | [optional]
-**price_classes** | Option<[**Vec<crate::models::PriceClass>**](PriceClass.md)> |  | [optional]
-**surcharge** | Option<[**crate::models::Surcharge**](Surcharge.md)> |  | [optional]
-**sections** | [**Vec<crate::models::Section>**](Section.md) |  | 
+**price_from** | Option<**f64**> |  | [optional]
+**price_to** | Option<**f64**> |  | [optional]
+**credit_price_from** | Option<**f64**> |  | [optional]
+**credit_price_to** | Option<**f64**> |  | [optional]
+**vehicle_types** | Option<[**Vec<models::VehicleType>**](VehicleType.md)> |  | [optional]
+**price_classes** | Option<[**Vec<models::PriceClass>**](PriceClass.md)> |  | [optional]
+**surcharge** | Option<[**models::Surcharge**](Surcharge.md)> |  | [optional]
+**sections** | [**Vec<models::Section>**](Section.md) |  | 
 **notices** | Option<**bool**> | Notice of any extraordinarily events on route / traffic limitation | [optional]
-**transfers_info** | Option<[**crate::models::TransfersInfo**](TransfersInfo.md)> |  | [optional]
+**transfers_info** | Option<[**models::TransfersInfo**](TransfersInfo.md)> |  | [optional]
 **national_trip** | Option<**bool**> | TRUE => national, FALSE => international | [optional]
 **bookable** | **bool** | TRUE if at least one class have enough free seats for reservation, otherwise FALSE | 
 **delay** | Option<**String**> | Textual information about the first delay on the route | [optional]

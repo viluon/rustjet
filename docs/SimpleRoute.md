@@ -9,13 +9,13 @@ Name | Type | Description | Notes
 **departure_time** | **String** |  | 
 **arrival_station_id** | Option<**i64**> |  | [optional]
 **arrival_time** | **String** |  | 
-**vehicle_types** | [**Vec<crate::models::VehicleType>**](VehicleType.md) | Connection type (for example: train, bus) | 
+**vehicle_types** | [**Vec<models::VehicleType>**](VehicleType.md) | Connection type (for example: train, bus) | 
 **transfers_count** | Option<**i32**> | Amount of transfers | [optional]
 **free_seats_count** | **i32** | Returns smallest number of available free seats through all sections | 
-**price_from** | **f32** |  | 
-**price_to** | Option<**f32**> |  | [optional]
-**credit_price_from** | **f32** |  | 
-**credit_price_to** | Option<**f32**> |  | [optional]
+**price_from** | **f64** |  | 
+**price_to** | Option<**f64**> |  | [optional]
+**credit_price_from** | **f64** |  | 
+**credit_price_to** | Option<**f64**> |  | [optional]
 **prices_count** | **i32** | Amount of prices | 
 **action_price** | **bool** | TRUE if any of prices is action price, otherwise FALSE | 
 **surcharge** | **bool** | TRUE if there is surcharge on this line, otherwise FALSE | 

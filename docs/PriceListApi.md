@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## get_time_ticket_price
 
-> Vec<crate::models::TimeTicketPrice> get_time_ticket_price(from_station_id, to_station_id, time_ticket_type, valid_from, tariff, x_currency)
+> Vec<models::TimeTicketPrice> get_time_ticket_price(from_station_id, to_station_id, time_ticket_type, valid_from, tariff, x_currency)
 Get timeTicket prices for tariff, ticket type, stationFrom, stationTo, dateTime and currency.
 
 ### Parameters
@@ -27,7 +27,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::TimeTicketPrice>**](TimeTicketPrice.md)
+[**Vec<models::TimeTicketPrice>**](TimeTicketPrice.md)
 
 ### Authorization
 

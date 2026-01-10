@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 ## authenticate
 
-> crate::models::User authenticate(x_lang)
+> models::User authenticate(x_lang)
 
 
 Validation of Auth token
@@ -36,11 +36,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::User**](User.md)
+[**models::User**](User.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -52,7 +52,7 @@ Name | Type | Description  | Required | Notes
 
 ## change_user_information
 
-> crate::models::SuccessResponse change_user_information(change_user_request, x_lang)
+> models::SuccessResponse change_user_information(change_user_request, x_lang)
 
 
 Change User Information
@@ -67,11 +67,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -83,7 +83,7 @@ Name | Type | Description  | Required | Notes
 
 ## change_user_password
 
-> crate::models::SuccessResponse change_user_password(request, x_lang)
+> models::SuccessResponse change_user_password(request, x_lang)
 
 
 Change Password
@@ -98,11 +98,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -114,7 +114,7 @@ Name | Type | Description  | Required | Notes
 
 ## forgotten_password
 
-> crate::models::SuccessResponse forgotten_password(request, x_lang)
+> models::SuccessResponse forgotten_password(request, x_lang)
 
 
 Request password reset
@@ -129,7 +129,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
@@ -145,7 +145,7 @@ No authorization required
 
 ## login_moje_id_account
 
-> crate::models::InlineResponse200 login_moje_id_account(login, x_lang)
+> models::InlineResponse200 login_moje_id_account(login, x_lang)
 
 
 Login via mojeId
@@ -160,7 +160,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::InlineResponse200**](inline_response_200.md)
+[**models::InlineResponse200**](inline_response_200.md)
 
 ### Authorization
 
@@ -176,7 +176,7 @@ No authorization required
 
 ## login_registered_account
 
-> crate::models::Token login_registered_account(login, x_lang, x_body_hash)
+> models::Token login_registered_account(login, x_lang, x_body_hash)
 
 
 Login for \"Registered Account\"
@@ -192,7 +192,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Token**](Token.md)
+[**models::Token**](Token.md)
 
 ### Authorization
 
@@ -208,7 +208,7 @@ No authorization required
 
 ## login_unregistered_account
 
-> crate::models::Token login_unregistered_account(login, x_lang, x_body_hash, x_re_captcha_token)
+> models::Token login_unregistered_account(login, x_lang, x_body_hash, x_re_captcha_token)
 
 
 Login for \"Unregistered Account\"
@@ -225,7 +225,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Token**](Token.md)
+[**models::Token**](Token.md)
 
 ### Authorization
 
@@ -241,7 +241,7 @@ No authorization required
 
 ## reset_password
 
-> crate::models::Token reset_password(request, x_lang)
+> models::Token reset_password(request, x_lang)
 
 
 Setup of new password
@@ -256,7 +256,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Token**](Token.md)
+[**models::Token**](Token.md)
 
 ### Authorization
 
@@ -272,7 +272,7 @@ Name | Type | Description  | Required | Notes
 
 ## signup_registered_account
 
-> crate::models::Token signup_registered_account(x_lang, x_body_hash, x_re_captcha_token, registered_account)
+> models::Token signup_registered_account(x_lang, x_body_hash, x_re_captcha_token, registered_account)
 
 
 Register new account
@@ -289,7 +289,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Token**](Token.md)
+[**models::Token**](Token.md)
 
 ### Authorization
 
@@ -305,7 +305,7 @@ No authorization required
 
 ## signup_simple_registered_account
 
-> crate::models::Token signup_simple_registered_account(request, x_lang)
+> models::Token signup_simple_registered_account(request, x_lang)
 
 
 Register new credit account from open account
@@ -320,11 +320,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Token**](Token.md)
+[**models::Token**](Token.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -336,7 +336,7 @@ Name | Type | Description  | Required | Notes
 
 ## user_logout
 
-> crate::models::SuccessResponse user_logout(x_lang)
+> models::SuccessResponse user_logout(x_lang)
 
 
 Logout
@@ -350,11 +350,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -366,7 +366,7 @@ Name | Type | Description  | Required | Notes
 
 ## user_settings_change_mojeid
 
-> crate::models::SuccessResponse user_settings_change_mojeid(x_lang, change_mojeid)
+> models::SuccessResponse user_settings_change_mojeid(x_lang, change_mojeid)
 
 
 Change Mojeid
@@ -381,11 +381,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -397,7 +397,7 @@ Name | Type | Description  | Required | Notes
 
 ## verify_reset_password_token
 
-> crate::models::SuccessResponse verify_reset_password_token(x_lang)
+> models::SuccessResponse verify_reset_password_token(x_lang)
 
 
 Validate password reset token
@@ -411,7 +411,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 

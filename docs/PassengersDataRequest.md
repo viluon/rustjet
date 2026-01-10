@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**sections** | [**Vec<crate::models::SimpleSection>**](SimpleSection.md) |  | 
+**sections** | [**Vec<models::SimpleSection>**](SimpleSection.md) |  | 
 **tariffs** | **Vec<String>** |  | 
 **seat_class** | **String** |  | 
 **price_source** | **String** | Pricing ID - used for confirmation that price, services or conditions werent changed | 

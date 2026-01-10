@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## get_available_addons
 
-> Vec<crate::models::AvailableAddon> get_available_addons(request, x_lang, x_currency)
+> Vec<models::AvailableAddon> get_available_addons(request, x_lang, x_currency)
 Get possible addons for given route.
 
 ### Parameters
@@ -26,7 +26,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::AvailableAddon>**](AvailableAddon.md)
+[**Vec<models::AvailableAddon>**](AvailableAddon.md)
 
 ### Authorization
 
@@ -42,7 +42,7 @@ No authorization required
 
 ## order_addons
 
-> crate::models::SuccessResponse order_addons(ticket_id, order_addons_request, x_lang)
+> models::SuccessResponse order_addons(ticket_id, order_addons_request, x_lang)
 Order tickets addons
 
 ### Parameters
@@ -56,11 +56,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -72,7 +72,7 @@ Name | Type | Description  | Required | Notes
 
 ## verify_addons
 
-> crate::models::SuccessResponse verify_addons(addons_verify_request, x_lang, x_currency)
+> models::SuccessResponse verify_addons(addons_verify_request, x_lang, x_currency)
 Verify validity of addons selection
 
 ### Parameters
@@ -86,7 +86,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 

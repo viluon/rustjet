@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 ## consts_translations_language_get
 
-> ::std::collections::HashMap<String, String> consts_translations_language_get(language)
+> std::collections::HashMap<String, String> consts_translations_language_get(language)
 Get the used dictionary of the selected language
 
 ### Parameters
@@ -31,7 +31,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-**::std::collections::HashMap<String, String>**
+**std::collections::HashMap<String, String>**
 
 ### Authorization
 
@@ -47,7 +47,7 @@ No authorization required
 
 ## get_action_prices
 
-> Vec<crate::models::ActionPrice> get_action_prices(x_lang, active_only)
+> Vec<models::ActionPrice> get_action_prices(x_lang, active_only)
 Returns list of Action Prices
 
 ### Parameters
@@ -60,7 +60,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::ActionPrice>**](ActionPrice.md)
+[**Vec<models::ActionPrice>**](ActionPrice.md)
 
 ### Authorization
 
@@ -76,7 +76,7 @@ No authorization required
 
 ## get_carriers
 
-> Vec<crate::models::Carrier> get_carriers(x_lang)
+> Vec<models::Carrier> get_carriers(x_lang)
 Returns List of Carriers
 
 ### Parameters
@@ -88,7 +88,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Carrier>**](Carrier.md)
+[**Vec<models::Carrier>**](Carrier.md)
 
 ### Authorization
 
@@ -104,7 +104,7 @@ No authorization required
 
 ## get_city_pairs
 
-> Vec<crate::models::CityPair> get_city_pairs(x_lang, x_currency, from_city_id, to_city_id, number_of_transfers)
+> Vec<models::CityPair> get_city_pairs(x_lang, x_currency, from_city_id, to_city_id, number_of_transfers)
 Returns List of possible CityPairs
 
 ### Parameters
@@ -120,7 +120,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::CityPair>**](CityPair.md)
+[**Vec<models::CityPair>**](CityPair.md)
 
 ### Authorization
 
@@ -136,7 +136,7 @@ No authorization required
 
 ## get_locations
 
-> Vec<crate::models::Country> get_locations(x_lang, station_type)
+> Vec<models::Country> get_locations(x_lang, station_type)
 List all possible locations served by RegioJet transportation services
 
 ### Parameters
@@ -149,7 +149,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Country>**](Country.md)
+[**Vec<models::Country>**](Country.md)
 
 ### Authorization
 
@@ -165,7 +165,7 @@ No authorization required
 
 ## get_online_paymenth_methods
 
-> Vec<crate::models::PaymentMethod> get_online_paymenth_methods(x_lang, x_currency)
+> Vec<models::PaymentMethod> get_online_paymenth_methods(x_lang, x_currency)
 Get the list of all payment methods
 
 Methods are marked as active if they are available and accept payments in the currency passed in X-Currency parameter.
@@ -180,7 +180,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::PaymentMethod>**](PaymentMethod.md)
+[**Vec<models::PaymentMethod>**](PaymentMethod.md)
 
 ### Authorization
 
@@ -196,7 +196,7 @@ No authorization required
 
 ## get_seat_classes
 
-> Vec<crate::models::SeatClass> get_seat_classes(x_lang)
+> Vec<models::SeatClass> get_seat_classes(x_lang)
 Get all possible seat classes
 
 Note the difference between tariffs, seat classes and vehicle standards
@@ -210,7 +210,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::SeatClass>**](SeatClass.md)
+[**Vec<models::SeatClass>**](SeatClass.md)
 
 ### Authorization
 
@@ -226,7 +226,7 @@ No authorization required
 
 ## get_tariffs
 
-> Vec<crate::models::Tariff> get_tariffs(x_lang)
+> Vec<models::Tariff> get_tariffs(x_lang)
 Get all possible tariffs
 
 Note the difference between tariffs, seat classes and vehicle standards
@@ -240,7 +240,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Tariff>**](Tariff.md)
+[**Vec<models::Tariff>**](Tariff.md)
 
 ### Authorization
 
@@ -256,7 +256,7 @@ No authorization required
 
 ## get_timetables
 
-> Vec<crate::models::Timetable> get_timetables(x_lang, connection_id)
+> Vec<models::Timetable> get_timetables(x_lang, connection_id)
 Get timetables of all connections or of a single one
 
 ### Parameters
@@ -269,7 +269,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Timetable>**](Timetable.md)
+[**Vec<models::Timetable>**](Timetable.md)
 
 ### Authorization
 
@@ -285,7 +285,7 @@ No authorization required
 
 ## get_vehicle_standards
 
-> Vec<crate::models::VehicleStandard> get_vehicle_standards(x_lang)
+> Vec<models::VehicleStandard> get_vehicle_standards(x_lang)
 Get all possible vehicle standards
 
 Note the difference between tariffs, seat classes and vehicle standards
@@ -299,7 +299,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::VehicleStandard>**](VehicleStandard.md)
+[**Vec<models::VehicleStandard>**](VehicleStandard.md)
 
 ### Authorization
 

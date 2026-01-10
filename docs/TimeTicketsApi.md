@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## cancel_time_ticket
 
-> crate::models::SuccessResponse cancel_time_ticket(time_ticket_id, request, x_lang)
+> models::SuccessResponse cancel_time_ticket(time_ticket_id, request, x_lang)
 Delete time ticket by ID
 
 ### Parameters
@@ -26,11 +26,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::SuccessResponse**](SuccessResponse.md)
+[**models::SuccessResponse**](SuccessResponse.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -42,7 +42,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_time_ticket_by_id
 
-> crate::models::TimeTicket get_time_ticket_by_id(time_ticket_id, x_lang)
+> models::TimeTicket get_time_ticket_by_id(time_ticket_id, x_lang)
 Get time ticket by ID
 
 ### Parameters
@@ -55,11 +55,11 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::TimeTicket**](TimeTicket.md)
+[**models::TimeTicket**](TimeTicket.md)
 
 ### Authorization
 
-[Bearer](../README.md#Bearer), [BearerHash](../README.md#BearerHash)
+[BearerHash](../README.md#BearerHash), [Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -71,7 +71,7 @@ Name | Type | Description  | Required | Notes
 
 ## time_ticket_check_in
 
-> crate::models::TimeTicketCheckinInfo time_ticket_check_in(time_ticket_id, body, x_lang)
+> models::TimeTicketCheckinInfo time_ticket_check_in(time_ticket_id, body, x_lang)
 Verify time ticket for connection.
 
 Verify time ticket by timeTicketID, connectionID, stationId and time . If everithing is OK return 200. If ticket doesnt exists return 404, else return 400.
@@ -87,7 +87,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::TimeTicketCheckinInfo**](TimeTicketCheckinInfo.md)
+[**models::TimeTicketCheckinInfo**](TimeTicketCheckinInfo.md)
 
 ### Authorization
 
