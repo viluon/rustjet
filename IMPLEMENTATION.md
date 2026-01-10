@@ -150,3 +150,19 @@ Add deployment guides for:
 - systemd service
 - NixOS module
 - Environment variable management
+
+## Phase 9: Refactoring
+
+### Adopt the hexagonal architecture
+- Structure code such that API depends on business logic, not vice-versa
+- Keep model crates free of dependencies (type definitions and trait impls only)
+- Connect independent modules with ports and adapters
+
+### Avoid reliance on environment variables
+- Pass configuration explicitly through constructors
+- Use a Config struct to encapsulate settings
+- Load config from a file
+
+### Get rid of SQLite
+- A Serde struct is enough for the storage format
+- An SQL RDBMS is overkill
