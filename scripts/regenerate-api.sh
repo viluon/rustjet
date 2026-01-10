@@ -13,6 +13,6 @@ openapi-generator-cli generate \
   --package-name rustjet \
   --skip-validate-spec
 
-echo "API client regenerated"
-echo "Protected files (see .openapi-generator-ignore):"
-cat .openapi-generator-ignore
+cargo clippy --all-targets --all-features --fix --allow-dirty -- -D warnings
+cargo fmt
+sed -i '/^\/\/\/$/d' $OUTPUT_DIR/src/models/*.rs
