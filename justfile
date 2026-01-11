@@ -28,6 +28,14 @@ build:
 run *args:
     cargo run --bin bot -- {{args}}
 
+# run the bot
+run-bot *args:
+    cargo run --bin rustjet-cli -- {{args}}
+
+# run the web server
+run-web:
+    cargo run --bin rustjet-web
+
 # watch and rebuild on file changes
 watch:
     cargo watch -x check
