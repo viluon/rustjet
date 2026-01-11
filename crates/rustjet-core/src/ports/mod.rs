@@ -2,7 +2,7 @@
 use anyhow::Result;
 use async_trait::async_trait;
 
-use crate::domain::{DomainTicket, UserCredentials};
+use crate::domain::{DomainTicket, TelegramUser, UserCredentials};
 
 /// Repository for fetching tickets from external API
 #[async_trait]
@@ -23,4 +23,9 @@ pub trait CredentialsStorage {
     fn delete(&self, user_id: i64) -> Result<()>;
     fn has(&self, user_id: i64) -> Result<bool>;
     fn all_user_ids(&self) -> Result<Vec<i64>>;
+}
+
+/// Authenticator for Telegram Web App initData
+pub trait WebAppAuthenticator {
+    fn validate_init_data(&self, init_data: &str) -> Result<TelegramUser>;
 }

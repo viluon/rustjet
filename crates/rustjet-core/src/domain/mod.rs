@@ -42,3 +42,12 @@ pub struct UserCredentials {
     pub account_code: String,
     pub password: String,
 }
+
+/// Telegram user information from WebApp initData
+#[derive(Debug, Clone, PartialEq)]
+pub struct TelegramUser {
+    pub id: i64,
+    pub first_name: String,
+    pub last_name: Option<String>,
+    pub username: Option<String>,
+}
