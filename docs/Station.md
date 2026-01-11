@@ -18,6 +18,9 @@ Name | Type | Description | Notes
 **longitude** | Option<**f64**> | GPS - longitude | [optional]
 **latitude** | Option<**f64**> | GPS - latitude | [optional]
 **image_url** | Option<**String**> | Station picture URL (for example: may contain detail information about transfer) | [optional]
+**cis_number** | Option<**i64**> | International ID of BusStation | [optional]
+**sr70_number** | Option<**i64**> | International ID of RailwayStation | [optional]
+**available** | **bool** | Defines if the station is currently available. | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

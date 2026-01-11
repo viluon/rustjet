@@ -11,7 +11,6 @@ Name | Type | Description | Notes
 **phone_number** | Option<**String**> |  | [optional]
 **restrict_phone_numbers** | Option<**bool**> | Restrict phone number for work with sms. | [optional][default to false]
 **email** | Option<**String**> |  | [optional]
-**mojeid** | Option<**String**> |  | [optional]
 **credit** | Option<**f64**> | Account balance | [optional]
 **credit_price** | Option<**bool**> | Difference between registered credit account with price advantage and regular unregistered open account | [optional][default to true]
 **currency** | Option<[**models::Currency**](Currency.md)> |  | [optional]
@@ -21,6 +20,9 @@ Name | Type | Description | Notes
 **company** | Option<[**models::Company**](Company.md)> |  | [optional]
 **conditions_acceptance** | Option<**bool**> | Acceptance of transport conditions and personal data protection | [optional][default to false]
 **employee_number** | Option<**i32**> | NULL for normal customer, internal number for Regiojet employee | [optional]
+**total_carbon_offset** | Option<**f64**> | Total amount spent on carbon offset | [optional]
+**saved_card** | Option<[**models::SavedCard**](SavedCard.md)> |  | [optional]
+**locale** | Option<[**models::Locale**](Locale.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

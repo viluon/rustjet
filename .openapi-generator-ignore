@@ -34,3 +34,5 @@ scripts/**
 flake.nix
 flake.lock
 CLAUDE.md
+.gitignore
+.travis.yml

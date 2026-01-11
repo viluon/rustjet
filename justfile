@@ -24,9 +24,9 @@ test:
 build:
     cargo build --release
 
-# run the CLI PoC with args
+# run the bot with args
 run *args:
-    cargo run --bin main -- {{args}}
+    cargo run --bin bot -- {{args}}
 
 # watch and rebuild on file changes
 watch:

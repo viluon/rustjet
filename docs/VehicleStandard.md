@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **key** | **String** | Enum.name | 
 **name** | **String** |  | 
+**short_description** | **String** |  | 
 **description** | **String** |  | 
 **image_url** | **String** |  | 
 **support_image_url** | **String** | Picture of standards available in support vehicle URL | 

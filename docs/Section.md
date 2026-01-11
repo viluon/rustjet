@@ -29,6 +29,7 @@ Name | Type | Description | Notes
 **services** | Option<**Vec<String>**> | Available services on this connection | [optional]
 **delay** | Option<**String**> | Textual information about the delay on a given section | [optional]
 **travel_time** | **String** | Textual information about the travel time on a given section | 
+**estimated_arrival_time** | Option<**String**> | Estimated arrival date time (arrivalTime + delay) | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

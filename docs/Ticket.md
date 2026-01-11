@@ -5,8 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **i64** | ID of the ticket | 
+**ticket_code** | **String** | Unique code of a ticket. | 
 **route_id** | **String** | route id (section0.id,section1.id, ... sectionx.id) | 
-**price** | **f64** | Final price for ticket, addons and insurance etc. | 
+**action_name** | Option<**String**> | A name of an action. | [optional]
+**price** | **f64** | Final price for ticket, addons etc. | 
 **unpaid** | **f64** | Final price to be paid | 
 **currency** | [**models::Currency**](Currency.md) |  | 
 **state** | [**models::TicketState**](TicketState.md) |  | 
@@ -30,6 +32,10 @@ Name | Type | Description | Notes
 **delay** | Option<**String**> | Textual information about the first delay on the route | [optional]
 **travel_time** | Option<**String**> | Textual information about the travel time on a given section | [optional]
 **estimated_arrival_time** | Option<**String**> | Estimated arrival date time (arrival + delay) | [optional]
+**affiliate_ticket** | Option<**bool**> | Returns true in case the ticket was crited by affiliate partner. | [optional]
+**wheel_chair_platform_order_possible** | **bool** | A flag that indicates whether it is possible or not to order a wheelchair platform for this ticket. | 
+**wheel_chair_platform_ordered** | **bool** | A flag that indicates whether is ordered a wheelchair platform for this ticket. | 
+**carbon_offset** | Option<[**models::AmountCurrency**](AmountCurrency.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

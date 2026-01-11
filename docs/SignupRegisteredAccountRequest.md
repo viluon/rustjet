@@ -9,7 +9,6 @@ Name | Type | Description | Notes
 **phone_number** | Option<**String**> |  | [optional]
 **restrict_phone_numbers** | Option<**bool**> | Restrict phone number for work with sms | [optional][default to false]
 **email** | **String** |  | 
-**mojeid** | Option<**String**> |  | [optional]
 **company_information** | Option<**bool**> |  | [optional][default to false]
 **company** | Option<[**models::Company**](Company.md)> |  | [optional]
 **default_tariff** | **String** |  | 
