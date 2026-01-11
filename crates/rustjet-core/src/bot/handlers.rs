@@ -2,10 +2,7 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use teloxide::{
-    dispatching::dialogue::InMemStorage,
-    prelude::*,
-    types::{ParseMode, UserId},
-    utils::command::BotCommands,
+    dispatching::dialogue::InMemStorage, prelude::*, types::ParseMode, utils::command::BotCommands,
 };
 use tokio::sync::Mutex;
 

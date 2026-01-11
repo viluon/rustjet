@@ -1,7 +1,6 @@
 use anyhow::{Context, Result};
 use chrono::{DateTime, Utc};
-
-use crate::{
+use regiojet_api::{
     apis::{
         configuration::{ApiKey, Configuration},
         tickets_api::get_all_tickets,
@@ -141,7 +140,7 @@ fn escape_markdown(text: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::models::{
+    use regiojet_api::models::{
         Currency, CustomerActions, Line, PassengersInfo, PriceConditions, Section, TicketSection,
         TicketState, VehicleType,
     };

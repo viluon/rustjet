@@ -1,10 +1,10 @@
 use chrono::Utc;
-use rustjet::{
+use regiojet_api::models::{
+    Currency, CustomerActions, Line, PassengersInfo, PriceConditions, Section, Ticket,
+    TicketSection, TicketState, VehicleType,
+};
+use rustjet_core::{
     bot::tickets::{format_tickets_message, get_upcoming_tickets},
-    models::{
-        Currency, CustomerActions, Line, PassengersInfo, PriceConditions, Section, Ticket,
-        TicketSection, TicketState, VehicleType,
-    },
     storage::credentials::CredentialsStore,
 };
 
@@ -137,8 +137,14 @@ async fn test_format_tickets_message() {
 
 #[tokio::test]
 async fn test_credentials_store_flow() {
-    // Use in-memory SQLite for testing
-    let store = CredentialsStore::new(":memory:").expect("Failed to create store");
+    // Use temp file for testing
+    let temp_dir = std::env::temp_dir();
+    let test_file = temp_dir.join(format!(
+        "rustjet_integration_test_{}.json",
+        rand::random::<u32>()
+    ));
+    let test_path = test_file.to_str().unwrap();
+    let store = CredentialsStore::new(test_path).expect("Failed to create store");
 
     let user_id = 123456;
     let account_code = "TEST_ACCOUNT";
@@ -179,6 +185,9 @@ async fn test_credentials_store_flow() {
         .delete_credentials(user_id)
         .expect("Failed to delete credentials");
     assert!(!store.has_credentials(user_id).unwrap());
+
+    // Cleanup
+    std::fs::remove_file(&test_path).ok();
 }
 
 #[tokio::test]
