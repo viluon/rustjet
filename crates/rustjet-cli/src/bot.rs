@@ -9,7 +9,7 @@ use tokio::sync::Mutex;
 use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-use rustjet::{
+use rustjet_core::{
     bot::{
         config::Config,
         handlers::{Command, handle_account_code, handle_command, handle_password},

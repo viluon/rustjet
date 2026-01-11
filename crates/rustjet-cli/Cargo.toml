@@ -1,0 +1,17 @@
+[package]
+name = "rustjet-cli"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "bot"
+path = "src/bot.rs"
+
+[dependencies]
+rustjet-core = { path = "../rustjet-core" }
+anyhow = "1.0"
+dotenv = "0.15"
+teloxide = { version = "0.17", features = ["macros"] }
+tokio = { version = "1", features = ["full", "rt-multi-thread", "macros"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
