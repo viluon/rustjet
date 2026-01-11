@@ -55,9 +55,9 @@ async fn main() -> Result<()> {
 
     info!("Starting RegioJet Telegram Bot");
 
-    // Load config from env
-    let config = Config::load()?;
-    info!("Config loaded");
+    // Load config from TOML file
+    let config = Config::from_file("config.toml")?;
+    info!("Config loaded from config.toml");
 
     // Initialize adapters
     let store = Arc::new(Mutex::new(JsonCredentialsStorage::new(
