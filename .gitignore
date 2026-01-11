@@ -1,6 +1,7 @@
+.env
 **/*.rs.bk
 /.direnv/
+/config.toml
 /target/
 Cargo.lock
-.env
 credentials.db
