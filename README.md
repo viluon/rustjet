@@ -6,7 +6,7 @@ Telegram bot for RegioJet ticket management - view upcoming tickets and receive 
 
 - **View upcoming tickets** - Display tickets departing in next 30 days via Telegram
 - **Automatic notifications** - Alerts before departure (background service)
-- **Secure credential storage** - Encrypted password storage with SQLite
+- **Secure credential storage** - Encrypted password storage in JSON file
 - **Multi-user support** - Each Telegram user has separate credentials
 - **Interactive login** - Wizard-based account connection
 
@@ -21,15 +21,22 @@ nix develop
 
 ### Configuration
 
-1. Copy environment template:
+1. Copy config template:
    ```bash
-   cp .env.example .env
+   cp config.toml.example config.toml
    ```
 
-2. Configure `.env`:
-   ```
-   TELOXIDE_TOKEN=your_bot_token_here
-   RUST_LOG=info
+2. Edit `config.toml`:
+   ```toml
+   [telegram]
+   bot_token = "your_bot_token_here"
+
+   [storage]
+   credentials_path = "credentials.json"
+
+   [notifications]
+   minutes_before = 60
+   check_interval_seconds = 300
    ```
 
    Get bot token from [@BotFather](https://t.me/botfather) on Telegram.
@@ -55,39 +62,32 @@ just run
 - `just fmt` - Format code
 - `just check` - Run clippy, fmt check, and tests
 - `just build` - Build release binary
-- `just test` - Run all tests (14 tests: 10 unit + 4 integration)
+- `just test` - Run all tests (22 unit + 4 integration)
 
 ### Architecture
 
 ```
-Telegram Bot (teloxide)
-    |
-    v
-Handlers (src/bot/handlers.rs)
-    |
-    +---> Tickets (src/bot/tickets.rs)
-    |         |
-    |         +---> RegioJet API (src/apis/)
-    |
-    +---> Credentials Store (src/storage/credentials.rs)
-              |
-              +---> SQLite Database
+rustjet-cli (composition root)
+  └─> rustjet-core
+        ├─> domain/          Pure business types
+        ├─> ports/           Trait definitions
+        ├─> services/        Business logic
+        ├─> adapters/        External implementations
+        │     ├─> regiojet.rs      (TicketRepository)
+        │     ├─> telegram.rs      (NotificationService)
+        │     └─> json_storage.rs  (CredentialsStorage)
+        └─> bot/             Orchestration
 ```
 
-**Data flow:**
-- User commands → handlers → business logic
-- Handlers ↔ conversation state (login wizard)
-- Tickets module → RegioJet API client (generated from OpenAPI)
-- Credentials store → SQLite with base64 encoding
+**Key traits (ports):**
+- `TicketRepository` - Fetch tickets from external API
+- `NotificationService` - Send notifications to users
+- `CredentialsStorage` - Store/retrieve user credentials
 
-**Key modules:**
-- `src/bot/handlers.rs` - Command handlers and login wizard
-- `src/bot/tickets.rs` - Ticket fetching and formatting
-- `src/bot/state.rs` - Conversation state management
-- `src/bot/notifications.rs` - Background notification service
-- `src/storage/credentials.rs` - Encrypted credential storage
-- `src/apis/` - Generated RegioJet API client
-- `src/models/` - Generated API models
+**Crates:**
+- `regiojet-api` - Generated API client from OpenAPI spec
+- `rustjet-core` - Domain types, ports, services, adapters
+- `rustjet-cli` - CLI binary, dependency wiring
 
 ## Testing
 
