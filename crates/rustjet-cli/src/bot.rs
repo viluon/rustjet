@@ -52,15 +52,15 @@ async fn main() -> Result<()> {
 
     // Initialize credentials store
     let store = Arc::new(Mutex::new(CredentialsStore::new(
-        &config.credentials_db_path,
+        &config.storage.credentials_path,
     )?));
     info!(
         "Credentials store initialized at {}",
-        config.credentials_db_path
+        config.storage.credentials_path
     );
 
     // Create bot instance
-    let bot = Bot::new(&config.telegram_bot_token);
+    let bot = Bot::new(&config.telegram.bot_token);
     info!("Bot instance created");
 
     // Spawn notification service in background

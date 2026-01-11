@@ -22,7 +22,10 @@ pub fn start_notification_service(bot: Bot, store: Arc<Mutex<CredentialsStore>>,
         info!("Notification service started");
 
         loop {
-            tokio::time::sleep(Duration::from_secs(config.notification_check_interval)).await;
+            tokio::time::sleep(Duration::from_secs(
+                config.notifications.check_interval_seconds,
+            ))
+            .await;
 
             if let Err(e) = check_all_users(&bot, &store, &config).await {
                 error!("Error in notification check: {}", e);
@@ -73,7 +76,7 @@ async fn check_user_notifications(bot: &Bot, config: &Config, creds: Credentials
         }
     };
 
-    let hours = config.notification_minutes_before / 60;
+    let hours = config.notifications.minutes_before / 60;
     let upcoming = get_upcoming_tickets(&tickets, hours as i64);
 
     if !upcoming.is_empty() {

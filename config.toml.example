@@ -1,0 +1,17 @@
+# RustJet Configuration Example
+# Copy this to config.toml and fill in your values
+
+[telegram]
+# Your Telegram bot token from @BotFather
+bot_token = "your_bot_token_here"
+
+[storage]
+# Path to the credentials database (JSON file)
+credentials_path = "credentials.json"
+
+[notifications]
+# How many minutes before departure to send notifications
+minutes_before = 60
+
+# How often to check for upcoming tickets (in seconds)
+check_interval_seconds = 300
