@@ -7,15 +7,16 @@ use teloxide::{
 use tokio::sync::Mutex;
 
 use crate::{
-    bot::{
-        state::State,
-        tickets::{fetch_user_tickets, format_tickets_message, get_upcoming_tickets},
-    },
-    storage::credentials::CredentialsStore,
+    adapters::telegram::TelegramAdapter,
+    bot::state::State,
+    domain::UserCredentials,
+    ports::{CredentialsStorage, TicketRepository},
+    services::tickets::TicketService,
 };
 
 pub type MyDialogue = Dialogue<State, InMemStorage<State>>;
-pub type SharedStore = Arc<Mutex<CredentialsStore>>;
+pub type SharedStore<S> = Arc<Mutex<S>>;
+pub type SharedRepo<R> = Arc<R>;
 
 /// Bot commands
 #[derive(BotCommands, Clone)]
@@ -37,17 +38,22 @@ pub enum Command {
 }
 
 /// Handle commands
-pub async fn handle_command(
+pub async fn handle_command<S, R>(
     bot: Bot,
     msg: Message,
     cmd: Command,
     dialogue: MyDialogue,
-    store: SharedStore,
-) -> Result<()> {
+    store: SharedStore<S>,
+    repo: SharedRepo<R>,
+) -> Result<()>
+where
+    S: CredentialsStorage + Send,
+    R: TicketRepository + Send + Sync,
+{
     match cmd {
         Command::Start => handle_start(bot, msg, dialogue).await,
         Command::Login => handle_login(bot, msg, dialogue).await,
-        Command::MyTickets => handle_my_tickets(bot, msg, store).await,
+        Command::MyTickets => handle_my_tickets(bot, msg, store, repo).await,
         Command::Notifications => handle_notifications(bot, msg).await,
         Command::Help => handle_help(bot, msg).await,
     }
@@ -79,12 +85,21 @@ async fn handle_login(bot: Bot, msg: Message, dialogue: MyDialogue) -> Result<()
 }
 
 /// Handle /mytickets command
-async fn handle_my_tickets(bot: Bot, msg: Message, store: SharedStore) -> Result<()> {
+async fn handle_my_tickets<S, R>(
+    bot: Bot,
+    msg: Message,
+    store: SharedStore<S>,
+    repo: SharedRepo<R>,
+) -> Result<()>
+where
+    S: CredentialsStorage + Send,
+    R: TicketRepository + Send + Sync,
+{
     let user_id = msg.from.as_ref().map(|u| u.id.0 as i64).unwrap_or(0);
 
     let creds = {
         let store = store.lock().await;
-        match store.get_credentials(user_id)? {
+        match store.get(user_id)? {
             Some(c) => c,
             None => {
                 bot.send_message(
@@ -100,10 +115,10 @@ async fn handle_my_tickets(bot: Bot, msg: Message, store: SharedStore) -> Result
     bot.send_message(msg.chat.id, "Fetching your tickets...")
         .await?;
 
-    match fetch_user_tickets(&creds.regiojet_account_code, &creds.password).await {
+    match repo.fetch_tickets(&creds).await {
         Ok(tickets) => {
-            let upcoming = get_upcoming_tickets(&tickets, 24 * 30); // 30 days
-            let message = format_tickets_message(&upcoming);
+            let upcoming = TicketService::get_upcoming_tickets(&tickets, 24 * 30); // 30 days
+            let message = TelegramAdapter::format_tickets_message(&upcoming);
 
             bot.send_message(msg.chat.id, message)
                 .parse_mode(ParseMode::MarkdownV2)
@@ -162,13 +177,18 @@ pub async fn handle_account_code(bot: Bot, msg: Message, dialogue: MyDialogue) -
 }
 
 /// Handle password input during login
-pub async fn handle_password(
+pub async fn handle_password<S, R>(
     bot: Bot,
     msg: Message,
     dialogue: MyDialogue,
-    store: SharedStore,
+    store: SharedStore<S>,
+    repo: SharedRepo<R>,
     account_code: String,
-) -> Result<()> {
+) -> Result<()>
+where
+    S: CredentialsStorage + Send,
+    R: TicketRepository + Send + Sync,
+{
     let password = msg.text().unwrap_or("").trim().to_string();
 
     if password.is_empty() {
@@ -182,13 +202,18 @@ pub async fn handle_password(
     bot.send_message(msg.chat.id, "Verifying credentials...")
         .await?;
 
+    let creds = UserCredentials {
+        account_code,
+        password,
+    };
+
     // Test login
-    match fetch_user_tickets(&account_code, &password).await {
+    match repo.fetch_tickets(&creds).await {
         Ok(_) => {
             // Store credentials
             {
                 let store = store.lock().await;
-                store.store_credentials(user_id, &account_code, &password)?;
+                store.store(user_id, &creds)?;
             }
 
             dialogue.update(State::Start).await?;

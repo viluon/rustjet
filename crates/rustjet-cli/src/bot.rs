@@ -10,26 +10,35 @@ use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use rustjet_core::{
+    adapters::{
+        json_storage::JsonCredentialsStorage, regiojet::RegioJetAdapter, telegram::TelegramAdapter,
+    },
     bot::{
         config::Config,
         handlers::{Command, handle_account_code, handle_command, handle_password},
         notifications::start_notification_service,
         state::State,
     },
-    storage::credentials::CredentialsStore,
 };
+
+type Store = JsonCredentialsStorage;
+type Repo = RegioJetAdapter;
 
 /// Setup message dispatcher with command and dialogue handlers
 fn schema() -> UpdateHandler<anyhow::Error> {
     use dptree::case;
 
-    let command_handler = teloxide::filter_command::<Command, _>().endpoint(handle_command);
+    let command_handler =
+        teloxide::filter_command::<Command, _>().endpoint(handle_command::<Store, Repo>);
 
     let message_handler = Update::filter_message()
         .enter_dialogue::<Message, InMemStorage<State>, State>()
         .branch(command_handler)
         .branch(case![State::AwaitingAccountCode].endpoint(handle_account_code))
-        .branch(case![State::AwaitingPassword { account_code }].endpoint(handle_password));
+        .branch(
+            case![State::AwaitingPassword { account_code }]
+                .endpoint(handle_password::<Store, Repo>),
+        );
 
     dialogue::enter::<Update, InMemStorage<State>, State, _>().branch(message_handler)
 }
@@ -50,8 +59,8 @@ async fn main() -> Result<()> {
     let config = Config::load()?;
     info!("Config loaded");
 
-    // Initialize credentials store
-    let store = Arc::new(Mutex::new(CredentialsStore::new(
+    // Initialize adapters
+    let store = Arc::new(Mutex::new(JsonCredentialsStorage::new(
         &config.storage.credentials_path,
     )?));
     info!(
@@ -59,17 +68,23 @@ async fn main() -> Result<()> {
         config.storage.credentials_path
     );
 
+    let repo = Arc::new(RegioJetAdapter::new());
+    info!("RegioJet adapter initialized");
+
     // Create bot instance
     let bot = Bot::new(&config.telegram.bot_token);
     info!("Bot instance created");
 
+    // Create notification adapter
+    let notifier = Arc::new(TelegramAdapter::new(bot.clone()));
+
     // Spawn notification service in background
-    start_notification_service(bot.clone(), store.clone(), config.clone());
+    start_notification_service(notifier, store.clone(), repo.clone(), config.clone());
     info!("Notification service started");
 
     // Setup message dispatcher
     Dispatcher::builder(bot, schema())
-        .dependencies(dptree::deps![InMemStorage::<State>::new(), store])
+        .dependencies(dptree::deps![InMemStorage::<State>::new(), store, repo])
         .enable_ctrlc_handler()
         .build()
         .dispatch()
