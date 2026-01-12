@@ -4,6 +4,7 @@ default:
 
 # run all checks (fmt, clippy, test)
 check:
+    just build-web
     cargo fmt -- --check
     cargo clippy -- -D warnings
     cargo test
@@ -22,6 +23,7 @@ test:
 
 # build release
 build:
+    just build-web
     cargo build --release
 
 # run the bot with args
@@ -31,6 +33,14 @@ run *args:
 # run the bot
 run-bot *args:
     cargo run --bin rustjet-cli -- {{args}}
+
+# build web frontend
+build-web:
+    cd crates/rustjet-web && npm run build
+
+# watch web frontend for changes
+watch-web:
+    cd crates/rustjet-web && npm run watch
 
 # run the web server
 run-web:
