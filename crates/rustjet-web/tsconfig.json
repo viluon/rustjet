@@ -11,6 +11,6 @@
     "noEmit": true,
     "types": ["@twa-dev/types"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["node_modules"]
 }
