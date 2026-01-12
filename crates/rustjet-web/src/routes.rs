@@ -1,13 +1,28 @@
 use axum::{response::Json, routing::get, Router};
+use serde::Serialize;
 use serde_json::{json, Value};
 use tower_http::services::ServeDir;
+
+use crate::auth::AuthenticatedUser;
 
 pub fn create_router() -> Router {
     Router::new()
         .route("/health", get(health))
+        .route("/api/tickets", get(get_tickets))
         .nest_service("/", ServeDir::new("crates/rustjet-web/static"))
 }
 
 async fn health() -> Json<Value> {
     Json(json!({"status": "ok"}))
+}
+
+#[derive(Serialize)]
+struct TicketsResponse {
+    tickets: Vec<Value>,
+}
+
+async fn get_tickets(_user: AuthenticatedUser) -> Json<TicketsResponse> {
+    // TODO: Wire up actual credential storage and ticket repository
+    // For now, return empty list
+    Json(TicketsResponse { tickets: vec![] })
 }
