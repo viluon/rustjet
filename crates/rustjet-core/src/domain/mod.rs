@@ -1,8 +1,9 @@
 /// Domain types - pure business models independent of external APIs
 use chrono::{DateTime, Utc};
+use serde::Serialize;
 
 /// Domain representation of a ticket
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct DomainTicket {
     pub id: i64,
     pub ticket_code: String,
@@ -12,7 +13,7 @@ pub struct DomainTicket {
 }
 
 /// Route information for a ticket
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct Route {
     pub from: String,
     pub to: String,
@@ -21,14 +22,14 @@ pub struct Route {
 }
 
 /// Money with amount and currency
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct Money {
     pub amount: f64,
     pub currency: String,
 }
 
 /// Ticket status
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 pub enum TicketStatus {
     Valid,
     Cancelled,
@@ -53,7 +54,7 @@ pub struct TelegramUser {
 }
 
 /// Notification settings for a user
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct NotificationSettings {
     pub enabled: bool,
 }
