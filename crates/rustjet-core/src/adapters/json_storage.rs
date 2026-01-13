@@ -5,7 +5,10 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::PathBuf;
 
-use crate::{domain::UserCredentials, ports::CredentialsStorage};
+use crate::{
+    domain::{NotificationSettings, UserCredentials},
+    ports::{CredentialsStorage, NotificationSettingsStorage},
+};
 
 /// Simple placeholder encryption using base64
 /// Note: This is NOT secure and is only for initial development.
@@ -145,6 +148,30 @@ impl CredentialsStorage for JsonCredentialsStorage {
     }
 }
 
+impl NotificationSettingsStorage for JsonCredentialsStorage {
+    fn get(&self, user_id: i64) -> Result<NotificationSettings> {
+        let data = self.read_data()?;
+
+        match data.notification_settings.get(&user_id) {
+            Some(stored) => Ok(NotificationSettings {
+                enabled: stored.enabled,
+            }),
+            None => Ok(NotificationSettings { enabled: true }), // Default: notifications enabled
+        }
+    }
+
+    fn set(&self, user_id: i64, settings: &NotificationSettings) -> Result<()> {
+        let mut data = self.read_data()?;
+
+        let stored = StoredNotificationSettings {
+            enabled: settings.enabled,
+        };
+
+        data.notification_settings.insert(user_id, stored);
+        self.write_data(&data)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -178,7 +205,7 @@ mod tests {
         store.store(user_id, &creds).unwrap();
 
         // Retrieve and verify
-        let retrieved = store.get(user_id).unwrap().unwrap();
+        let retrieved = CredentialsStorage::get(&store, user_id).unwrap().unwrap();
         assert_eq!(retrieved.account_code, creds.account_code);
         assert_eq!(retrieved.password, creds.password);
 
@@ -190,7 +217,7 @@ mod tests {
     fn test_get_nonexistent_credentials() {
         let path = temp_file_path();
         let store = JsonCredentialsStorage::new(&path).unwrap();
-        let result = store.get(99999).unwrap();
+        let result = CredentialsStorage::get(&store, 99999).unwrap();
         assert!(result.is_none());
 
         // Cleanup
@@ -263,7 +290,7 @@ mod tests {
         store.store(user_id, &creds2).unwrap();
 
         // Verify update
-        let retrieved = store.get(user_id).unwrap().unwrap();
+        let retrieved = CredentialsStorage::get(&store, user_id).unwrap().unwrap();
         assert_eq!(retrieved.account_code, "XYZ789");
         assert_eq!(retrieved.password, "password2");
 
