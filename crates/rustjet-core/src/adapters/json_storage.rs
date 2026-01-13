@@ -24,16 +24,23 @@ fn decrypt_password(encrypted: &str) -> Result<String> {
     String::from_utf8(bytes).map_err(|e| anyhow!("Invalid UTF-8 in password: {}", e))
 }
 
-/// Internal storage format - maps user IDs to credentials
+/// Internal storage format - maps user IDs to credentials and notification settings
 #[derive(Serialize, Deserialize)]
 struct CredentialsData {
     credentials: HashMap<i64, StoredCredentials>,
+    #[serde(default)]
+    notification_settings: HashMap<i64, StoredNotificationSettings>,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
 struct StoredCredentials {
     account_code: String,
     encrypted_password: String,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+struct StoredNotificationSettings {
+    enabled: bool,
 }
 
 /// JSON file-based credentials storage
@@ -58,6 +65,7 @@ impl JsonCredentialsStorage {
         if !path.exists() {
             let empty_data = CredentialsData {
                 credentials: HashMap::new(),
+                notification_settings: HashMap::new(),
             };
             let json = serde_json::to_string_pretty(&empty_data)
                 .map_err(|e| anyhow!("Failed to serialize empty credentials: {}", e))?;
