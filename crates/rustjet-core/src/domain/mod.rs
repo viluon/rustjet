@@ -51,3 +51,9 @@ pub struct TelegramUser {
     pub last_name: Option<String>,
     pub username: Option<String>,
 }
+
+/// Notification settings for a user
+#[derive(Debug, Clone, PartialEq)]
+pub struct NotificationSettings {
+    pub enabled: bool,
+}
