@@ -297,4 +297,44 @@ mod tests {
         // Cleanup
         fs::remove_file(&path).ok();
     }
+
+    #[test]
+    fn test_notification_settings_default() {
+        let path = temp_file_path();
+        let store = JsonCredentialsStorage::new(&path).unwrap();
+        let user_id = 12345;
+
+        // Get settings for user without stored settings (should return default)
+        let settings = NotificationSettingsStorage::get(&store, user_id).unwrap();
+        assert_eq!(settings.enabled, true); // Default is enabled
+
+        // Cleanup
+        fs::remove_file(&path).ok();
+    }
+
+    #[test]
+    fn test_notification_settings_set_and_get() {
+        let path = temp_file_path();
+        let store = JsonCredentialsStorage::new(&path).unwrap();
+        let user_id = 12345;
+
+        // Set notifications to disabled
+        let settings = NotificationSettings { enabled: false };
+        NotificationSettingsStorage::set(&store, user_id, &settings).unwrap();
+
+        // Retrieve and verify
+        let retrieved = NotificationSettingsStorage::get(&store, user_id).unwrap();
+        assert_eq!(retrieved.enabled, false);
+
+        // Set back to enabled
+        let settings_enabled = NotificationSettings { enabled: true };
+        NotificationSettingsStorage::set(&store, user_id, &settings_enabled).unwrap();
+
+        // Verify update
+        let retrieved = NotificationSettingsStorage::get(&store, user_id).unwrap();
+        assert_eq!(retrieved.enabled, true);
+
+        // Cleanup
+        fs::remove_file(&path).ok();
+    }
 }
