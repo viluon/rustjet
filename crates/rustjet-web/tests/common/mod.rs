@@ -18,9 +18,10 @@ pub fn create_test_state() -> AppState {
     let webapp_auth = Arc::new(TelegramWebAppAuth::new("test_token".to_string()));
 
     AppState {
-        credentials_storage,
+        credentials_storage: credentials_storage.clone(),
         ticket_repo,
         webapp_auth,
+        notification_settings: credentials_storage,
     }
 }
 

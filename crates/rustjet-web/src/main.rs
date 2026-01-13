@@ -25,9 +25,10 @@ async fn main() -> Result<()> {
 
     // Create app state
     let state = AppState {
-        credentials_storage,
+        credentials_storage: credentials_storage.clone(),
         ticket_repo,
         webapp_auth,
+        notification_settings: credentials_storage,
     };
 
     // Bind to configured address
