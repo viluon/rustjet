@@ -2,7 +2,7 @@
 use anyhow::Result;
 use async_trait::async_trait;
 
-use crate::domain::{DomainTicket, TelegramUser, UserCredentials};
+use crate::domain::{DomainTicket, NotificationSettings, TelegramUser, UserCredentials};
 
 /// Repository for fetching tickets from external API
 #[async_trait]
@@ -28,4 +28,10 @@ pub trait CredentialsStorage {
 /// Authenticator for Telegram Web App initData
 pub trait WebAppAuthenticator {
     fn validate_init_data(&self, init_data: &str) -> Result<TelegramUser>;
+}
+
+/// Storage for user notification settings
+pub trait NotificationSettingsStorage: Send + Sync {
+    fn get(&self, user_id: i64) -> Result<NotificationSettings>;
+    fn set(&self, user_id: i64, settings: &NotificationSettings) -> Result<()>;
 }
