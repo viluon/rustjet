@@ -4,8 +4,9 @@ use serde_json::{json, Value};
 use tower_http::services::ServeDir;
 
 use crate::auth::AuthenticatedUser;
+use crate::state::AppState;
 
-pub fn create_router() -> Router {
+pub fn create_router() -> Router<AppState> {
     Router::new()
         .route("/health", get(health))
         .route("/api/tickets", get(get_tickets))
