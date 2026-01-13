@@ -11,7 +11,7 @@ pub fn create_router() -> Router<AppState> {
         .route("/health", get(health))
         .route("/api/tickets", get(get_tickets))
         .route("/api/user", get(get_user))
-        .nest_service("/", ServeDir::new("crates/rustjet-web/static"))
+        .fallback_service(ServeDir::new("crates/rustjet-web/static"))
 }
 
 async fn health() -> Json<Value> {

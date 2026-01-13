@@ -3,6 +3,10 @@ name = "rustjet-web"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "rustjet_web"
+path = "src/lib.rs"
+
 [[bin]]
 name = "rustjet-web"
 path = "src/main.rs"

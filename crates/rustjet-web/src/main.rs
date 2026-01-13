@@ -1,7 +1,3 @@
-mod auth;
-mod routes;
-mod state;
-
 use std::sync::Arc;
 
 use anyhow::Result;
@@ -9,9 +5,8 @@ use rustjet_core::adapters::json_storage::JsonCredentialsStorage;
 use rustjet_core::adapters::regiojet::RegioJetAdapter;
 use rustjet_core::adapters::telegram_webapp::TelegramWebAppAuth;
 use rustjet_core::bot::config::Config;
+use rustjet_web::{routes, state::AppState};
 use tokio::net::TcpListener;
-
-use crate::state::AppState;
 
 #[tokio::main]
 async fn main() -> Result<()> {
