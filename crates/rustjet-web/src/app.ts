@@ -68,20 +68,196 @@ class ApiClient {
 
 const api = new ApiClient();
 
-// Show app is ready
-tg.ready();
-
-// Simple content for now
-const contentEl = document.getElementById('content');
-if (contentEl) {
-    contentEl.innerHTML = `
-    <div class="status">
-        <p>✓ Telegram WebApp initialized</p>
-        <p>User ID: ${tg.initDataUnsafe.user?.id || 'Unknown'}</p>
-        <p>First Name: ${tg.initDataUnsafe.user?.first_name || 'Unknown'}</p>
-    </div>
-`;
+// Types
+interface User {
+    id: number;
+    first_name: string;
+    username?: string;
+    has_credentials: boolean;
+    notifications_enabled: boolean;
 }
 
+interface Ticket {
+    id: number;
+    ticket_code: string;
+    route: {
+        from: string;
+        to: string;
+        departure_time: string;
+        arrival_time: string;
+    };
+    price: {
+        amount: number;
+        currency: string;
+    };
+    state: 'Valid' | 'Cancelled' | 'Expired' | { Unknown: string };
+}
+
+// State
+let user: User | null = null;
+let tickets: Ticket[] = [];
+
+// UI rendering
+function render() {
+    const contentEl = document.getElementById('content');
+    if (!contentEl) return;
+
+    if (!user) {
+        contentEl.innerHTML = '<p class="loading">Loading...</p>';
+        return;
+    }
+
+    contentEl.innerHTML = `
+        <div class="section">
+            <h2>Settings</h2>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="notifications-toggle" ${user.notifications_enabled ? 'checked' : ''}>
+                    <span>Enable notifications</span>
+                </label>
+            </div>
+        </div>
+
+        ${user.has_credentials ? `
+            <div class="section">
+                <h2>Your Tickets</h2>
+                <div id="tickets-list"></div>
+            </div>
+            <div class="section">
+                <button id="remove-credentials" class="button-danger">Remove Account</button>
+            </div>
+        ` : `
+            <div class="section">
+                <h2>Connect RegioJet Account</h2>
+                <form id="credentials-form">
+                    <input type="text" id="account-code" placeholder="Account code" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <button type="submit">Save Credentials</button>
+                </form>
+            </div>
+        `}
+    `;
+
+    // Render tickets if user has credentials
+    if (user.has_credentials) {
+        renderTickets();
+    }
+
+    // Attach event listeners
+    attachEventListeners();
+}
+
+function renderTickets() {
+    const ticketsEl = document.getElementById('tickets-list');
+    if (!ticketsEl) return;
+
+    if (tickets.length === 0) {
+        ticketsEl.innerHTML = '<p class="hint">No upcoming tickets found.</p>';
+        return;
+    }
+
+    ticketsEl.innerHTML = tickets.map(ticket => {
+        const departureDate = new Date(ticket.route.departure_time);
+        const arrivalDate = new Date(ticket.route.arrival_time);
+        const stateClass = typeof ticket.state === 'string' ? ticket.state.toLowerCase() : 'unknown';
+
+        return `
+            <div class="ticket ${stateClass}">
+                <div class="ticket-header">
+                    <span class="ticket-code">#${ticket.ticket_code}</span>
+                    <span class="ticket-state">${typeof ticket.state === 'string' ? ticket.state : 'Unknown'}</span>
+                </div>
+                <div class="ticket-route">
+                    <div class="route-station">${ticket.route.from}</div>
+                    <div class="route-arrow">→</div>
+                    <div class="route-station">${ticket.route.to}</div>
+                </div>
+                <div class="ticket-time">
+                    ${departureDate.toLocaleString()} - ${arrivalDate.toLocaleTimeString()}
+                </div>
+                <div class="ticket-price">
+                    ${ticket.price.amount.toFixed(2)} ${ticket.price.currency}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function attachEventListeners() {
+    // Notifications toggle
+    const notificationsToggle = document.getElementById('notifications-toggle') as HTMLInputElement;
+    if (notificationsToggle) {
+        notificationsToggle.addEventListener('change', async () => {
+            try {
+                await api.saveNotificationSettings(notificationsToggle.checked);
+                tg.showPopup({ message: 'Settings saved' });
+            } catch (error) {
+                console.error('Failed to save settings:', error);
+                tg.showPopup({ message: 'Failed to save settings' });
+                notificationsToggle.checked = !notificationsToggle.checked;
+            }
+        });
+    }
+
+    // Credentials form
+    const credentialsForm = document.getElementById('credentials-form') as HTMLFormElement;
+    if (credentialsForm) {
+        credentialsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const accountCode = (document.getElementById('account-code') as HTMLInputElement).value;
+            const password = (document.getElementById('password') as HTMLInputElement).value;
+
+            try {
+                await api.saveCredentials(accountCode, password);
+                await loadData();
+                tg.showPopup({ message: 'Credentials saved' });
+            } catch (error) {
+                console.error('Failed to save credentials:', error);
+                tg.showPopup({ message: 'Failed to save credentials' });
+            }
+        });
+    }
+
+    // Remove credentials button
+    const removeButton = document.getElementById('remove-credentials');
+    if (removeButton) {
+        removeButton.addEventListener('click', async () => {
+            try {
+                await api.deleteCredentials();
+                await loadData();
+                tg.showPopup({ message: 'Account removed' });
+            } catch (error) {
+                console.error('Failed to remove credentials:', error);
+                tg.showPopup({ message: 'Failed to remove account' });
+            }
+        });
+    }
+}
+
+// Load data from API
+async function loadData() {
+    try {
+        user = await api.getUser();
+
+        if (user.has_credentials) {
+            const response = await api.getTickets();
+            tickets = response.tickets || [];
+        } else {
+            tickets = [];
+        }
+
+        render();
+    } catch (error) {
+        console.error('Failed to load data:', error);
+        const contentEl = document.getElementById('content');
+        if (contentEl) {
+            contentEl.innerHTML = '<p class="error">Failed to load data. Please try again.</p>';
+        }
+    }
+}
+
+// Initialize app
+tg.ready();
+loadData();
+
 console.log('Telegram WebApp initialized:', tg);
-console.log('Init data:', tg.initData);
