@@ -1,6 +1,6 @@
 # Implementation Guide
 
-## Status: Phase 12 In Progress (17/22 commits - 77% complete)
+## Status: Phase 12 Complete (22/22 commits - 100%)
 
 **Phase 6**: Bot infrastructure implemented with atomic commits.
 
@@ -14,11 +14,11 @@
 
 **Phase 11**: Hexagonal architecture complete - ports/adapters pattern, TOML config, domain types.
 
-**Phase 12**: Telegram MiniApp web server - in progress (77% complete)
+**Phase 12**: Telegram MiniApp backend - complete (all 22 commits)
 
 ## Phase 12: Telegram MiniApp Implementation
 
-### Completed (17 commits)
+### Completed (22/22 commits)
 
 **Phase 1: Config & Infrastructure (6 commits)**
 1. Add web server config to TOML structure
@@ -43,16 +43,29 @@
 16. Add structured error handling for API
 17. Add integration tests for user and tickets
 
-**Phase 4: New Endpoints (In Progress - 1/5 commits)**
-- Currently implementing POST /api/credentials (1/5)
-- DELETE /api/credentials (pending)
-- POST /api/settings/notifications (pending)
-- CORS middleware (pending)
-- Integration tests for Phase 4 (pending)
+**Phase 4: New Endpoints (5 commits)**
+18. Add POST /api/credentials endpoint
+19. Add DELETE /api/credentials endpoint
+20. Add POST /api/settings/notifications endpoint
+21. Add CORS middleware
+22. Add integration tests for Phase 4
 
-### Remaining Work (5 commits)
+### Backend API Complete
 
-Phase 4 endpoints completion, then Phase 5 frontend and bot integration.
+All endpoints implemented with real data integration:
+- GET /health
+- GET /api/tickets (real RegioJet API data)
+- GET /api/user (credentials & notification status)
+- POST /api/credentials (store RegioJet account)
+- DELETE /api/credentials (remove stored account)
+- POST /api/settings/notifications (toggle notifications)
+
+### Next: Phase 13 - Frontend & Bot Integration
+
+Remaining work for full MiniApp:
+- Frontend UI (ticket list, account management, settings)
+- Bot /webapp command (inline keyboard with WebApp button)
+- Documentation updates
 
 ### Architecture Updates
 
