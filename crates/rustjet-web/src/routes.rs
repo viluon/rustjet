@@ -1,5 +1,8 @@
 use axum::{extract::State, response::Json, routing::get, Router};
-use rustjet_core::{domain::DomainTicket, ports::CredentialsStorage};
+use rustjet_core::{
+    domain::DomainTicket,
+    ports::{CredentialsStorage, NotificationSettingsStorage},
+};
 use serde::Serialize;
 use serde_json::{json, Value};
 use tower_http::services::ServeDir;
@@ -56,13 +59,19 @@ struct UserResponse {
     notifications_enabled: bool,
 }
 
-async fn get_user(user: AuthenticatedUser) -> Json<UserResponse> {
-    // TODO: Wire up actual credential storage and notification settings
+async fn get_user(State(state): State<AppState>, user: AuthenticatedUser) -> Json<UserResponse> {
+    // Check if user has credentials
+    let has_credentials = state.credentials_storage.has(user.0.id).unwrap_or(false);
+
+    // Get notification settings
+    let notifications = NotificationSettingsStorage::get(&*state.notification_settings, user.0.id)
+        .unwrap_or(rustjet_core::domain::NotificationSettings { enabled: true });
+
     Json(UserResponse {
         id: user.0.id,
         first_name: user.0.first_name,
         username: user.0.username,
-        has_credentials: false,
-        notifications_enabled: true,
+        has_credentials,
+        notifications_enabled: notifications.enabled,
     })
 }
