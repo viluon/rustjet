@@ -1,4 +1,10 @@
-use axum::{extract::State, response::Json, routing::get, Router};
+use axum::{
+    extract::State,
+    http::StatusCode,
+    response::{IntoResponse, Json, Response},
+    routing::get,
+    Router,
+};
 use rustjet_core::{
     domain::DomainTicket,
     ports::{CredentialsStorage, NotificationSettingsStorage},
@@ -9,6 +15,35 @@ use tower_http::services::ServeDir;
 
 use crate::auth::AuthenticatedUser;
 use crate::state::AppState;
+
+/// API error type with proper HTTP status codes
+#[derive(Debug)]
+#[allow(dead_code)] // Will be used in Phase 4
+enum ApiError {
+    Internal(String),
+    BadRequest(String),
+}
+
+impl IntoResponse for ApiError {
+    fn into_response(self) -> Response {
+        let (status, message) = match self {
+            ApiError::Internal(msg) => (StatusCode::INTERNAL_SERVER_ERROR, msg),
+            ApiError::BadRequest(msg) => (StatusCode::BAD_REQUEST, msg),
+        };
+
+        let body = Json(json!({
+            "error": message,
+        }));
+
+        (status, body).into_response()
+    }
+}
+
+impl From<anyhow::Error> for ApiError {
+    fn from(err: anyhow::Error) -> Self {
+        ApiError::Internal(err.to_string())
+    }
+}
 
 pub fn create_router() -> Router<AppState> {
     Router::new()
