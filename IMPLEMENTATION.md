@@ -18,7 +18,7 @@
 
 **Phase 13**: Telegram MiniApp frontend & integration - complete (4 commits)
 
-**Phase 14**: Dependency updates - in progress
+**Phase 14**: Dependency updates - complete (1 commit)
 
 ## Phase 12: Telegram MiniApp Implementation
 
@@ -95,19 +95,24 @@ All endpoints implemented with real data integration:
 
 ## Phase 14: Dependency Updates
 
-### Tasks
+### Completed (1 commit)
 
-1. Update Cargo dependencies to latest versions
-2. Update npm dependencies to latest versions
-3. Fix any deprecations or breaking changes
-4. Commit updated lockfiles (Cargo.lock, package-lock.json)
+**Cargo Updates (7 packages):**
+- getrandom 0.2.16 → 0.2.17
+- rand_core 0.9.3 → 0.9.5
+- time 0.3.44 → 0.3.45 (+ time-core, time-macros)
+- tower 0.5.2 → 0.5.3
+- zmij 1.0.12 → 1.0.14
 
-### Goals
+**npm Updates:**
+- esbuild 0.24.0 → 0.27.2 (security fix for moderate CVE)
+- All vulnerabilities resolved
 
-- Latest security patches
-- Performance improvements
-- New features from updated dependencies
-- Resolve any deprecation warnings
+**Results:**
+- All tests pass (`just check`)
+- No deprecations or breaking changes
+- Lockfiles committed (Cargo.lock, package-lock.json)
+- Zero vulnerabilities in npm audit
 
 ### Architecture Updates
 
