@@ -50,7 +50,10 @@ pub fn create_router() -> Router<AppState> {
         .route("/health", get(health))
         .route("/api/tickets", get(get_tickets))
         .route("/api/user", get(get_user))
-        .route("/api/credentials", post(save_credentials))
+        .route(
+            "/api/credentials",
+            post(save_credentials).delete(delete_credentials),
+        )
         .fallback_service(ServeDir::new("crates/rustjet-web/static"))
 }
 
@@ -131,4 +134,13 @@ async fn save_credentials(
     state.credentials_storage.store(user.0.id, &creds)?;
 
     Ok(StatusCode::OK)
+}
+
+async fn delete_credentials(
+    State(state): State<AppState>,
+    user: AuthenticatedUser,
+) -> Result<StatusCode, ApiError> {
+    state.credentials_storage.delete(user.0.id)?;
+
+    Ok(StatusCode::NO_CONTENT)
 }
