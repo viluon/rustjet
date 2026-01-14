@@ -18,6 +18,8 @@
 
 **Phase 13**: Telegram MiniApp frontend & integration - complete (4 commits)
 
+**Phase 14**: Dependency updates - in progress
+
 ## Phase 12: Telegram MiniApp Implementation
 
 ### Completed (22/22 commits)
@@ -90,6 +92,22 @@ All endpoints implemented with real data integration:
 - API endpoint documentation
 - Web server configuration guide
 - Tech stack overview
+
+## Phase 14: Dependency Updates
+
+### Tasks
+
+1. Update Cargo dependencies to latest versions
+2. Update npm dependencies to latest versions
+3. Fix any deprecations or breaking changes
+4. Commit updated lockfiles (Cargo.lock, package-lock.json)
+
+### Goals
+
+- Latest security patches
+- Performance improvements
+- New features from updated dependencies
+- Resolve any deprecation warnings
 
 ### Architecture Updates
 
