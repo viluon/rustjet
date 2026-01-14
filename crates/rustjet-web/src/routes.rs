@@ -1,4 +1,5 @@
-use axum::{response::Json, routing::get, Router};
+use axum::{extract::State, response::Json, routing::get, Router};
+use rustjet_core::{domain::DomainTicket, ports::CredentialsStorage};
 use serde::Serialize;
 use serde_json::{json, Value};
 use tower_http::services::ServeDir;
@@ -20,13 +21,30 @@ async fn health() -> Json<Value> {
 
 #[derive(Serialize)]
 struct TicketsResponse {
-    tickets: Vec<Value>,
+    tickets: Vec<DomainTicket>,
 }
 
-async fn get_tickets(_user: AuthenticatedUser) -> Json<TicketsResponse> {
-    // TODO: Wire up actual credential storage and ticket repository
-    // For now, return empty list
-    Json(TicketsResponse { tickets: vec![] })
+async fn get_tickets(
+    State(state): State<AppState>,
+    user: AuthenticatedUser,
+) -> Json<TicketsResponse> {
+    // Check if user has credentials
+    let creds = match CredentialsStorage::get(&*state.credentials_storage, user.0.id) {
+        Ok(Some(creds)) => creds,
+        _ => {
+            // No credentials stored, return empty list
+            return Json(TicketsResponse { tickets: vec![] });
+        }
+    };
+
+    // Fetch tickets from RegioJet
+    let tickets = state
+        .ticket_repo
+        .fetch_tickets(&creds)
+        .await
+        .unwrap_or_else(|_| vec![]);
+
+    Json(TicketsResponse { tickets })
 }
 
 #[derive(Serialize)]
