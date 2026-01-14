@@ -54,6 +54,10 @@ pub fn create_router() -> Router<AppState> {
             "/api/credentials",
             post(save_credentials).delete(delete_credentials),
         )
+        .route(
+            "/api/settings/notifications",
+            post(save_notification_settings),
+        )
         .fallback_service(ServeDir::new("crates/rustjet-web/static"))
 }
 
@@ -121,6 +125,11 @@ struct SaveCredentialsRequest {
     password: String,
 }
 
+#[derive(Deserialize)]
+struct NotificationSettingsRequest {
+    enabled: bool,
+}
+
 async fn save_credentials(
     State(state): State<AppState>,
     user: AuthenticatedUser,
@@ -143,4 +152,20 @@ async fn delete_credentials(
     state.credentials_storage.delete(user.0.id)?;
 
     Ok(StatusCode::NO_CONTENT)
+}
+
+async fn save_notification_settings(
+    State(state): State<AppState>,
+    user: AuthenticatedUser,
+    Json(req): Json<NotificationSettingsRequest>,
+) -> Result<StatusCode, ApiError> {
+    use rustjet_core::domain::NotificationSettings;
+
+    let settings = NotificationSettings {
+        enabled: req.enabled,
+    };
+
+    NotificationSettingsStorage::set(&*state.notification_settings, user.0.id, &settings)?;
+
+    Ok(StatusCode::OK)
 }
