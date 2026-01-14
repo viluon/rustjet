@@ -4,11 +4,12 @@ Telegram bot for RegioJet ticket management - view upcoming tickets and receive 
 
 ## Features
 
-- **View upcoming tickets** - Display tickets departing in next 30 days via Telegram
+- **Telegram Mini App** - Modern web interface for ticket and account management
+- **View upcoming tickets** - Display tickets departing in next 30 days via Telegram or web app
 - **Automatic notifications** - Alerts before departure (background service)
 - **Secure credential storage** - Encrypted password storage in JSON file
 - **Multi-user support** - Each Telegram user has separate credentials
-- **Interactive login** - Wizard-based account connection
+- **Interactive login** - Wizard-based account connection via bot or web app
 
 ## Setup
 
@@ -53,7 +54,40 @@ just run
 - `/login` - Link RegioJet account (interactive wizard prompts for account code + password)
 - `/mytickets` - Show tickets departing in next 30 days
 - `/notifications` - Info about notification settings
+- `/webapp` - Open Telegram Mini App
 - `/help` - Command list
+
+## Telegram Mini App
+
+Web interface accessible via `/webapp` command provides:
+
+- **Ticket list** - View all upcoming tickets with route, time, and price
+- **Account management** - Add/remove RegioJet credentials via web form
+- **Notification settings** - Toggle departure notifications on/off
+- **Telegram integration** - Authenticated via Telegram WebApp initData
+
+### Web Server
+
+Runs on port configured in `config.toml`:
+
+```toml
+[web]
+host = "0.0.0.0"
+port = 8080
+```
+
+**API Endpoints:**
+- `GET /health` - Health check
+- `GET /api/user` - Get user info and settings
+- `GET /api/tickets` - List upcoming tickets
+- `POST /api/credentials` - Save RegioJet account
+- `DELETE /api/credentials` - Remove account
+- `POST /api/settings/notifications` - Update notification preferences
+
+**Tech Stack:**
+- Backend: Axum with Telegram WebApp auth
+- Frontend: TypeScript, vanilla JS
+- CORS: Configured for `https://web.telegram.org`
 
 ## Development
 
@@ -88,6 +122,7 @@ rustjet-cli (composition root)
 - `regiojet-api` - Generated API client from OpenAPI spec
 - `rustjet-core` - Domain types, ports, services, adapters
 - `rustjet-cli` - CLI binary, dependency wiring
+- `rustjet-web` - Axum web server for Telegram Mini App
 
 ## Testing
 

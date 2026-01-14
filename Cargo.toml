@@ -4,6 +4,7 @@ members = [
     "crates/regiojet-api",
     "crates/rustjet-core",
     "crates/rustjet-cli",
+    "crates/rustjet-web",
 ]
 
 [workspace.package]

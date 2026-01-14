@@ -2,7 +2,10 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use teloxide::{
-    dispatching::dialogue::InMemStorage, prelude::*, types::ParseMode, utils::command::BotCommands,
+    dispatching::dialogue::InMemStorage,
+    prelude::*,
+    types::{InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, WebAppInfo},
+    utils::command::BotCommands,
 };
 use tokio::sync::Mutex;
 
@@ -33,6 +36,8 @@ pub enum Command {
     MyTickets,
     #[command(description = "Enable/disable notifications")]
     Notifications,
+    #[command(description = "Open web app")]
+    WebApp,
     #[command(description = "Show help")]
     Help,
 }
@@ -55,6 +60,7 @@ where
         Command::Login => handle_login(bot, msg, dialogue).await,
         Command::MyTickets => handle_my_tickets(bot, msg, store, repo).await,
         Command::Notifications => handle_notifications(bot, msg).await,
+        Command::WebApp => handle_webapp(bot, msg).await,
         Command::Help => handle_help(bot, msg).await,
     }
 }
@@ -140,6 +146,28 @@ async fn handle_notifications(bot: Bot, msg: Message) -> Result<()> {
         "Notifications are automatically enabled when you log in.\n\
         You'll receive alerts before your tickets depart.",
     )
+    .await?;
+
+    Ok(())
+}
+
+/// Handle /webapp command
+async fn handle_webapp(bot: Bot, msg: Message) -> Result<()> {
+    // TODO: Get URL from config
+    let web_app_url = "http://localhost:8080";
+
+    let keyboard = InlineKeyboardMarkup::new(vec![vec![InlineKeyboardButton::web_app(
+        "Open RustJet",
+        WebAppInfo {
+            url: web_app_url.parse()?,
+        },
+    )]]);
+
+    bot.send_message(
+        msg.chat.id,
+        "Open the RustJet web app to manage your tickets and settings:",
+    )
+    .reply_markup(keyboard)
     .await?;
 
     Ok(())

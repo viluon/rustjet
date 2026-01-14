@@ -59,6 +59,7 @@
             pkgs.openapi-generator-cli
             pkgs.clang
             pkgs.just
+            pkgs.mold
           ] ++ nativeBuildInputs ++ buildInputs;
 
           shellHook = ''

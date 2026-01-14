@@ -1,39 +1,47 @@
 # Implementation Guide
 
-## Status: Phase 11 Complete ✓
+## Status: Phase 14 Complete
 
-**Phase 6**: Bot infrastructure implemented with atomic commits.
+**Phase 6**: Bot infrastructure
+**Phase 7**: Integration testing
+**Phase 8**: Documentation
+**Phase 9**: Workspace refactoring (4 crates)
+**Phase 10**: Storage (SQLite → JSON file)
+**Phase 11**: Hexagonal architecture (ports/adapters, TOML config)
+**Phase 12**: Telegram MiniApp backend (Axum, real data integration)
+**Phase 13**: MiniApp frontend (TypeScript, /webapp command)
+**Phase 14**: Dependency updates
 
-**Phase 7**: Integration testing complete.
+## Key Decisions
 
-**Phase 8**: Documentation complete - comprehensive README with setup, commands, architecture.
+**MiniApp Architecture:**
+- Backend: Axum web server with Telegram WebApp auth
+- Frontend: TypeScript, vanilla JS (no framework)
+- Storage: Shared JSON file for credentials + notification settings
+- CORS configured for web.telegram.org
 
-**Phase 9**: Workspace refactoring complete - 3 crates (regiojet-api, rustjet-core, rustjet-cli).
-
-**Phase 10**: Storage simplified - replaced SQLite with JSON file storage, atomic writes.
-
-**Phase 11**: Hexagonal architecture complete - ports/adapters pattern, TOML config, domain types.
+**Crates:**
+- `regiojet-api` - OpenAPI-generated client
+- `rustjet-core` - Domain, ports, adapters
+- `rustjet-cli` - Bot binary
+- `rustjet-web` - MiniApp backend
 
 ## Architecture
 
-```
-rustjet-cli (composition root)
-  └─> rustjet-core
-        ├─> domain/          Pure business types (DomainTicket, UserCredentials)
-        ├─> ports/           Trait definitions (TicketRepository, CredentialsStorage, NotificationService)
-        ├─> services/        Business logic (TicketService)
-        ├─> adapters/        External implementations
-        │     ├─> regiojet.rs      (TicketRepository impl)
-        │     ├─> telegram.rs      (NotificationService impl)
-        │     └─> json_storage.rs  (CredentialsStorage impl)
-        └─> bot/             Orchestration (handlers, notifications, state)
-```
+Hexagonal (ports/adapters):
+- **Domain**: Pure business types
+- **Ports**: Traits (TicketRepository, CredentialsStorage, NotificationService, NotificationSettingsStorage)
+- **Adapters**: RegioJet API, Telegram, JSON storage, WebApp auth
+- **Services**: Ticket filtering logic
+- **Bot**: Handlers, dialogue state
 
 ## Lessons Learned
 
-Atomic commits essential for clean history. Spawning subagents creates large changesets that violate atomicity - better to implement incrementally by hand. Always `just check` after every change, not just at end of phase. Formatting and clippy fixes belong in separate commits from feature work.
-
-**Phase 9-10 mistake**: Implemented both phases without intermediate commits. Required `git reset --soft HEAD~` and manual splitting into 5 commits. Should have committed Phase 9 workspace refactoring before starting Phase 10 storage changes.
+- Atomic commits essential - avoid large changesets
+- Subagents violate atomicity, implement incrementally by hand
+- Run `just check` after each change, not end of phase
+- Separate commits: features vs formatting/clippy
+- Commit phase transitions before starting next phase (Phase 9-10 mistake required manual splitting)
 
 ## Outstanding Issues
 

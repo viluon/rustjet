@@ -20,12 +20,20 @@ pub struct NotificationsConfig {
     pub check_interval_seconds: u64,
 }
 
+/// Web server configuration
+#[derive(Debug, Clone, Deserialize)]
+pub struct WebConfig {
+    pub host: String,
+    pub port: u16,
+}
+
 /// Bot configuration
 #[derive(Debug, Clone, Deserialize)]
 pub struct Config {
     pub telegram: TelegramConfig,
     pub storage: StorageConfig,
     pub notifications: NotificationsConfig,
+    pub web: WebConfig,
 }
 
 impl Config {

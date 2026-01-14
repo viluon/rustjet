@@ -5,7 +5,10 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::PathBuf;
 
-use crate::{domain::UserCredentials, ports::CredentialsStorage};
+use crate::{
+    domain::{NotificationSettings, UserCredentials},
+    ports::{CredentialsStorage, NotificationSettingsStorage},
+};
 
 /// Simple placeholder encryption using base64
 /// Note: This is NOT secure and is only for initial development.
@@ -24,16 +27,23 @@ fn decrypt_password(encrypted: &str) -> Result<String> {
     String::from_utf8(bytes).map_err(|e| anyhow!("Invalid UTF-8 in password: {}", e))
 }
 
-/// Internal storage format - maps user IDs to credentials
+/// Internal storage format - maps user IDs to credentials and notification settings
 #[derive(Serialize, Deserialize)]
 struct CredentialsData {
     credentials: HashMap<i64, StoredCredentials>,
+    #[serde(default)]
+    notification_settings: HashMap<i64, StoredNotificationSettings>,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
 struct StoredCredentials {
     account_code: String,
     encrypted_password: String,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+struct StoredNotificationSettings {
+    enabled: bool,
 }
 
 /// JSON file-based credentials storage
@@ -58,6 +68,7 @@ impl JsonCredentialsStorage {
         if !path.exists() {
             let empty_data = CredentialsData {
                 credentials: HashMap::new(),
+                notification_settings: HashMap::new(),
             };
             let json = serde_json::to_string_pretty(&empty_data)
                 .map_err(|e| anyhow!("Failed to serialize empty credentials: {}", e))?;
@@ -137,6 +148,30 @@ impl CredentialsStorage for JsonCredentialsStorage {
     }
 }
 
+impl NotificationSettingsStorage for JsonCredentialsStorage {
+    fn get(&self, user_id: i64) -> Result<NotificationSettings> {
+        let data = self.read_data()?;
+
+        match data.notification_settings.get(&user_id) {
+            Some(stored) => Ok(NotificationSettings {
+                enabled: stored.enabled,
+            }),
+            None => Ok(NotificationSettings { enabled: true }), // Default: notifications enabled
+        }
+    }
+
+    fn set(&self, user_id: i64, settings: &NotificationSettings) -> Result<()> {
+        let mut data = self.read_data()?;
+
+        let stored = StoredNotificationSettings {
+            enabled: settings.enabled,
+        };
+
+        data.notification_settings.insert(user_id, stored);
+        self.write_data(&data)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -170,7 +205,7 @@ mod tests {
         store.store(user_id, &creds).unwrap();
 
         // Retrieve and verify
-        let retrieved = store.get(user_id).unwrap().unwrap();
+        let retrieved = CredentialsStorage::get(&store, user_id).unwrap().unwrap();
         assert_eq!(retrieved.account_code, creds.account_code);
         assert_eq!(retrieved.password, creds.password);
 
@@ -182,7 +217,7 @@ mod tests {
     fn test_get_nonexistent_credentials() {
         let path = temp_file_path();
         let store = JsonCredentialsStorage::new(&path).unwrap();
-        let result = store.get(99999).unwrap();
+        let result = CredentialsStorage::get(&store, 99999).unwrap();
         assert!(result.is_none());
 
         // Cleanup
@@ -255,9 +290,49 @@ mod tests {
         store.store(user_id, &creds2).unwrap();
 
         // Verify update
-        let retrieved = store.get(user_id).unwrap().unwrap();
+        let retrieved = CredentialsStorage::get(&store, user_id).unwrap().unwrap();
         assert_eq!(retrieved.account_code, "XYZ789");
         assert_eq!(retrieved.password, "password2");
+
+        // Cleanup
+        fs::remove_file(&path).ok();
+    }
+
+    #[test]
+    fn test_notification_settings_default() {
+        let path = temp_file_path();
+        let store = JsonCredentialsStorage::new(&path).unwrap();
+        let user_id = 12345;
+
+        // Get settings for user without stored settings (should return default)
+        let settings = NotificationSettingsStorage::get(&store, user_id).unwrap();
+        assert_eq!(settings.enabled, true); // Default is enabled
+
+        // Cleanup
+        fs::remove_file(&path).ok();
+    }
+
+    #[test]
+    fn test_notification_settings_set_and_get() {
+        let path = temp_file_path();
+        let store = JsonCredentialsStorage::new(&path).unwrap();
+        let user_id = 12345;
+
+        // Set notifications to disabled
+        let settings = NotificationSettings { enabled: false };
+        NotificationSettingsStorage::set(&store, user_id, &settings).unwrap();
+
+        // Retrieve and verify
+        let retrieved = NotificationSettingsStorage::get(&store, user_id).unwrap();
+        assert_eq!(retrieved.enabled, false);
+
+        // Set back to enabled
+        let settings_enabled = NotificationSettings { enabled: true };
+        NotificationSettingsStorage::set(&store, user_id, &settings_enabled).unwrap();
+
+        // Verify update
+        let retrieved = NotificationSettingsStorage::get(&store, user_id).unwrap();
+        assert_eq!(retrieved.enabled, true);
 
         // Cleanup
         fs::remove_file(&path).ok();
