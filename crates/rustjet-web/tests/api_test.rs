@@ -42,3 +42,45 @@ async fn test_auth_invalid_header() {
 
     assert_eq!(response.status_code(), 401);
 }
+
+#[tokio::test]
+async fn test_save_credentials_requires_auth() {
+    let state = create_test_state();
+    let app = create_test_app(state);
+    let server = TestServer::new(app).unwrap();
+
+    let body = serde_json::json!({
+        "account_code": "TEST123",
+        "password": "test_password"
+    });
+
+    // Request without auth should fail
+    let response = server.post("/api/credentials").json(&body).await;
+    assert_eq!(response.status_code(), 401);
+}
+
+#[tokio::test]
+async fn test_delete_credentials_requires_auth() {
+    let state = create_test_state();
+    let app = create_test_app(state);
+    let server = TestServer::new(app).unwrap();
+
+    // Request without auth should fail
+    let response = server.delete("/api/credentials").await;
+    assert_eq!(response.status_code(), 401);
+}
+
+#[tokio::test]
+async fn test_save_notification_settings_requires_auth() {
+    let state = create_test_state();
+    let app = create_test_app(state);
+    let server = TestServer::new(app).unwrap();
+
+    let body = serde_json::json!({
+        "enabled": false
+    });
+
+    // Request without auth should fail
+    let response = server.post("/api/settings/notifications").json(&body).await;
+    assert_eq!(response.status_code(), 401);
+}
