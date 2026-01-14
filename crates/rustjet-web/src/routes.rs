@@ -2,14 +2,14 @@ use axum::{
     extract::State,
     http::StatusCode,
     response::{IntoResponse, Json, Response},
-    routing::get,
+    routing::{get, post},
     Router,
 };
 use rustjet_core::{
-    domain::DomainTicket,
+    domain::{DomainTicket, UserCredentials},
     ports::{CredentialsStorage, NotificationSettingsStorage},
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use tower_http::services::ServeDir;
 
@@ -18,9 +18,9 @@ use crate::state::AppState;
 
 /// API error type with proper HTTP status codes
 #[derive(Debug)]
-#[allow(dead_code)] // Will be used in Phase 4
 enum ApiError {
     Internal(String),
+    #[allow(dead_code)] // Will be used in future endpoints
     BadRequest(String),
 }
 
@@ -50,6 +50,7 @@ pub fn create_router() -> Router<AppState> {
         .route("/health", get(health))
         .route("/api/tickets", get(get_tickets))
         .route("/api/user", get(get_user))
+        .route("/api/credentials", post(save_credentials))
         .fallback_service(ServeDir::new("crates/rustjet-web/static"))
 }
 
@@ -109,4 +110,25 @@ async fn get_user(State(state): State<AppState>, user: AuthenticatedUser) -> Jso
         has_credentials,
         notifications_enabled: notifications.enabled,
     })
+}
+
+#[derive(Deserialize)]
+struct SaveCredentialsRequest {
+    account_code: String,
+    password: String,
+}
+
+async fn save_credentials(
+    State(state): State<AppState>,
+    user: AuthenticatedUser,
+    Json(req): Json<SaveCredentialsRequest>,
+) -> Result<StatusCode, ApiError> {
+    let creds = UserCredentials {
+        account_code: req.account_code,
+        password: req.password,
+    };
+
+    state.credentials_storage.store(user.0.id, &creds)?;
+
+    Ok(StatusCode::OK)
 }

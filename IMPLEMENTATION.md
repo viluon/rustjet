@@ -1,6 +1,6 @@
 # Implementation Guide
 
-## Status: Phase 11 Complete ✓
+## Status: Phase 12 In Progress (17/22 commits - 77% complete)
 
 **Phase 6**: Bot infrastructure implemented with atomic commits.
 
@@ -13,6 +13,56 @@
 **Phase 10**: Storage simplified - replaced SQLite with JSON file storage, atomic writes.
 
 **Phase 11**: Hexagonal architecture complete - ports/adapters pattern, TOML config, domain types.
+
+**Phase 12**: Telegram MiniApp web server - in progress (77% complete)
+
+## Phase 12: Telegram MiniApp Implementation
+
+### Completed (17 commits)
+
+**Phase 1: Config & Infrastructure (6 commits)**
+1. Add web server config to TOML structure
+2. Configure web server host and port
+3. Add AppState for dependency injection
+4. Wire config and adapters into web server
+5. Validate Telegram WebApp auth signature
+6. Add integration tests for health and auth
+
+**Phase 2: NotificationSettings Port & Adapter (6 commits)**
+7. Add NotificationSettings domain type
+8. Define NotificationSettingsStorage port
+9. Extend JSON schema for notification settings
+10. Implement notification settings in JSON adapter
+11. Wire notification settings storage to AppState
+12. Add tests for notification settings storage
+
+**Phase 3: Real Data & Existing Endpoints (5 commits)**
+13. Add JSON serialization to domain types
+14. Return real tickets from RegioJet API
+15. Return real user status from storage
+16. Add structured error handling for API
+17. Add integration tests for user and tickets
+
+**Phase 4: New Endpoints (In Progress - 1/5 commits)**
+- Currently implementing POST /api/credentials (1/5)
+- DELETE /api/credentials (pending)
+- POST /api/settings/notifications (pending)
+- CORS middleware (pending)
+- Integration tests for Phase 4 (pending)
+
+### Remaining Work (5 commits)
+
+Phase 4 endpoints completion, then Phase 5 frontend and bot integration.
+
+### Architecture Updates
+
+The web server uses:
+- **Framework**: Axum with State-based dependency injection
+- **Authentication**: Telegram WebApp signature validation
+- **Storage**: JSON file-based (credentials, notification settings)
+- **API Integration**: Real RegioJet API for ticket fetching
+- **Error Handling**: Structured errors with proper HTTP status codes
+- **Testing**: Integration tests for health, auth, user data, and tickets
 
 ## Architecture
 
