@@ -1,6 +1,6 @@
 use axum::{
     extract::State,
-    http::StatusCode,
+    http::{HeaderValue, Method, StatusCode},
     response::{IntoResponse, Json, Response},
     routing::{get, post},
     Router,
@@ -11,7 +11,7 @@ use rustjet_core::{
 };
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use tower_http::services::ServeDir;
+use tower_http::{cors::CorsLayer, services::ServeDir};
 
 use crate::auth::AuthenticatedUser;
 use crate::state::AppState;
@@ -46,6 +46,15 @@ impl From<anyhow::Error> for ApiError {
 }
 
 pub fn create_router() -> Router<AppState> {
+    let cors = CorsLayer::new()
+        .allow_origin("https://web.telegram.org".parse::<HeaderValue>().unwrap())
+        .allow_methods([Method::GET, Method::POST, Method::DELETE, Method::OPTIONS])
+        .allow_headers([
+            axum::http::header::CONTENT_TYPE,
+            axum::http::header::AUTHORIZATION,
+            "X-Telegram-Init-Data".parse().unwrap(),
+        ]);
+
     Router::new()
         .route("/health", get(health))
         .route("/api/tickets", get(get_tickets))
@@ -58,6 +67,7 @@ pub fn create_router() -> Router<AppState> {
             "/api/settings/notifications",
             post(save_notification_settings),
         )
+        .layer(cors)
         .fallback_service(ServeDir::new("crates/rustjet-web/static"))
 }
 
