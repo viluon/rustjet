@@ -1,149 +1,47 @@
 # Implementation Guide
 
-## Status: Phase 13 Complete - Telegram MiniApp Fully Operational
+## Status: Phase 14 Complete
 
-**Phase 6**: Bot infrastructure implemented with atomic commits.
+**Phase 6**: Bot infrastructure
+**Phase 7**: Integration testing
+**Phase 8**: Documentation
+**Phase 9**: Workspace refactoring (4 crates)
+**Phase 10**: Storage (SQLite → JSON file)
+**Phase 11**: Hexagonal architecture (ports/adapters, TOML config)
+**Phase 12**: Telegram MiniApp backend (Axum, real data integration)
+**Phase 13**: MiniApp frontend (TypeScript, /webapp command)
+**Phase 14**: Dependency updates
 
-**Phase 7**: Integration testing complete.
+## Key Decisions
 
-**Phase 8**: Documentation complete - comprehensive README with setup, commands, architecture.
+**MiniApp Architecture:**
+- Backend: Axum web server with Telegram WebApp auth
+- Frontend: TypeScript, vanilla JS (no framework)
+- Storage: Shared JSON file for credentials + notification settings
+- CORS configured for web.telegram.org
 
-**Phase 9**: Workspace refactoring complete - 3 crates (regiojet-api, rustjet-core, rustjet-cli).
-
-**Phase 10**: Storage simplified - replaced SQLite with JSON file storage, atomic writes.
-
-**Phase 11**: Hexagonal architecture complete - ports/adapters pattern, TOML config, domain types.
-
-**Phase 12**: Telegram MiniApp backend - complete (all 22 commits).
-
-**Phase 13**: Telegram MiniApp frontend & integration - complete (4 commits)
-
-**Phase 14**: Dependency updates - complete (1 commit)
-
-## Phase 12: Telegram MiniApp Implementation
-
-### Completed (22/22 commits)
-
-**Phase 1: Config & Infrastructure (6 commits)**
-1. Add web server config to TOML structure
-2. Configure web server host and port
-3. Add AppState for dependency injection
-4. Wire config and adapters into web server
-5. Validate Telegram WebApp auth signature
-6. Add integration tests for health and auth
-
-**Phase 2: NotificationSettings Port & Adapter (6 commits)**
-7. Add NotificationSettings domain type
-8. Define NotificationSettingsStorage port
-9. Extend JSON schema for notification settings
-10. Implement notification settings in JSON adapter
-11. Wire notification settings storage to AppState
-12. Add tests for notification settings storage
-
-**Phase 3: Real Data & Existing Endpoints (5 commits)**
-13. Add JSON serialization to domain types
-14. Return real tickets from RegioJet API
-15. Return real user status from storage
-16. Add structured error handling for API
-17. Add integration tests for user and tickets
-
-**Phase 4: New Endpoints (5 commits)**
-18. Add POST /api/credentials endpoint
-19. Add DELETE /api/credentials endpoint
-20. Add POST /api/settings/notifications endpoint
-21. Add CORS middleware
-22. Add integration tests for Phase 4
-
-### Backend API Complete
-
-All endpoints implemented with real data integration:
-- GET /health
-- GET /api/tickets (real RegioJet API data)
-- GET /api/user (credentials & notification status)
-- POST /api/credentials (store RegioJet account)
-- DELETE /api/credentials (remove stored account)
-- POST /api/settings/notifications (toggle notifications)
-
-## Phase 13: Frontend & Bot Integration
-
-### Completed (4 commits)
-
-1. Add API client to frontend
-2. Implement complete frontend UI (tickets, credentials form, notification toggle)
-3. Add /webapp command (inline keyboard with WebApp button)
-4. Update README with Telegram Mini App docs
-
-### Features Delivered
-
-**Frontend:**
-- TypeScript API client with fetch wrapper
-- Ticket list component with route, time, price display
-- Credentials form for RegioJet account management
-- Notification toggle with instant API updates
-- Remove account functionality
-- Telegram theme integration (colors, styling)
-
-**Bot Integration:**
-- `/webapp` command opens Mini App via inline keyboard
-- WebApp button launches authenticated web interface
-
-**Documentation:**
-- Updated README with Mini App features
-- API endpoint documentation
-- Web server configuration guide
-- Tech stack overview
-
-## Phase 14: Dependency Updates
-
-### Completed (1 commit)
-
-**Cargo Updates (7 packages):**
-- getrandom 0.2.16 → 0.2.17
-- rand_core 0.9.3 → 0.9.5
-- time 0.3.44 → 0.3.45 (+ time-core, time-macros)
-- tower 0.5.2 → 0.5.3
-- zmij 1.0.12 → 1.0.14
-
-**npm Updates:**
-- esbuild 0.24.0 → 0.27.2 (security fix for moderate CVE)
-- All vulnerabilities resolved
-
-**Results:**
-- All tests pass (`just check`)
-- No deprecations or breaking changes
-- Lockfiles committed (Cargo.lock, package-lock.json)
-- Zero vulnerabilities in npm audit
-
-### Architecture Updates
-
-The web server uses:
-- **Framework**: Axum with State-based dependency injection
-- **Authentication**: Telegram WebApp signature validation
-- **Storage**: JSON file-based (credentials, notification settings)
-- **API Integration**: Real RegioJet API for ticket fetching
-- **Error Handling**: Structured errors with proper HTTP status codes
-- **Testing**: Integration tests for health, auth, user data, and tickets
+**Crates:**
+- `regiojet-api` - OpenAPI-generated client
+- `rustjet-core` - Domain, ports, adapters
+- `rustjet-cli` - Bot binary
+- `rustjet-web` - MiniApp backend
 
 ## Architecture
 
-```
-rustjet-cli (composition root)
-  └─> rustjet-core
-        ├─> domain/          Pure business types (DomainTicket, UserCredentials)
-        ├─> ports/           Trait definitions (TicketRepository, CredentialsStorage, NotificationService)
-        ├─> services/        Business logic (TicketService)
-        ├─> adapters/        External implementations
-        │     ├─> regiojet.rs      (TicketRepository impl)
-        │     ├─> telegram.rs      (NotificationService impl)
-        │     └─> json_storage.rs  (CredentialsStorage impl)
-        └─> bot/             Orchestration (handlers, notifications, state)
-```
+Hexagonal (ports/adapters):
+- **Domain**: Pure business types
+- **Ports**: Traits (TicketRepository, CredentialsStorage, NotificationService, NotificationSettingsStorage)
+- **Adapters**: RegioJet API, Telegram, JSON storage, WebApp auth
+- **Services**: Ticket filtering logic
+- **Bot**: Handlers, dialogue state
 
 ## Lessons Learned
 
-Atomic commits essential for clean history. Spawning subagents creates large changesets that violate atomicity - better to implement incrementally by hand. Always `just check` after every change, not just at end of phase. Formatting and clippy fixes belong in separate commits from feature work.
-
-**Phase 9-10 mistake**: Implemented both phases without intermediate commits. Required `git reset --soft HEAD~` and manual splitting into 5 commits. Should have committed Phase 9 workspace refactoring before starting Phase 10 storage changes.
+- Atomic commits essential - avoid large changesets
+- Subagents violate atomicity, implement incrementally by hand
+- Run `just check` after each change, not end of phase
+- Separate commits: features vs formatting/clippy
+- Commit phase transitions before starting next phase (Phase 9-10 mistake required manual splitting)
 
 ## Outstanding Issues
 
