@@ -3,8 +3,7 @@ default:
     just --list
 
 # run all checks (fmt, clippy, test)
-check:
-    just build-web
+check: build-web
     cargo fmt -- --check
     cargo clippy -- -D warnings
     cargo test
@@ -22,8 +21,7 @@ test:
     cargo test
 
 # build release
-build:
-    just build-web
+build: build-web
     cargo build --release
 
 # run the bot with args
