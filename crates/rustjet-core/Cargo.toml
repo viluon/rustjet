@@ -13,10 +13,10 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 teloxide = { version = "0.17", features = ["macros"] }
 tokio = { version = "1", features = ["full", "rt-multi-thread", "macros"] }
-toml = "0.8"
+toml = "0.9"
 tracing = "0.1"
 
 [dev-dependencies]
-mockito = "1.5"
+mockito = "1.7"
 rand = "0.9"
 tokio-test = "0.4"
